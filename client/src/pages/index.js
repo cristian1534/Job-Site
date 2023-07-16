@@ -10,6 +10,7 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import ContactForm from "@/components/Contact/ContactForm";
 import LineTime from "@/components/LineTime/LineTime";
 import CookieConsent from "react-cookie-consent";
+import Link from "next/link";
 
 // Styles...
 const CardBox = styled(Box)`
@@ -162,7 +163,7 @@ const Index = () => {
         }}
         buttonText="UNDERSTAND"
       >
-        THIS SITE USES COOKIES. SEE OUR{" "}<a href="/" style={{color: "blue"}}>POLICY</a>.
+        THIS SITE USES COOKIES. SEE OUR{" "}<Link href="/" style={{color: "blue"}}>POLICY</Link>.
       </CookieConsent>
     </HomeContainer>
   );
