@@ -12,6 +12,8 @@ import LineTime from "@/components/LineTime/LineTime";
 import CookieConsent from "react-cookie-consent";
 import Link from "next/link";
 
+
+
 // Styles...
 const CardBox = styled(Box)`
   display: flex;
@@ -74,16 +76,56 @@ const Index = () => {
   };
 
   const cardData = [
-    { id: 1, name: "User 1" },
-    { id: 2, name: "User 2" },
-    { id: 3, name: "User 3" },
-    { id: 4, name: "User 4" },
-    { id: 5, name: "User 5" },
-    { id: 6, name: "User 6" },
-    { id: 7, name: "User 7" },
-    { id: 8, name: "User 8" },
-    { id: 9, name: "User 9" },
-    { id: 10, name: "User 10" },
+    {
+      id: 1,
+      name: "Pedro Gomez",
+      title: "Gerente de Ventas",
+      subheader: "Ventas",
+    },
+    {
+      id: 2,
+      name: "Oscar Gutierrez",
+      title: "Analista Financiero",
+      subheader: "Finanzas",
+    },
+    {
+      id: 3,
+      name: "Jose Torres",
+      title: "Ingeniero de Software",
+      subheader: "Tecnología",
+    },
+    {
+      id: 4,
+      name: "Ivan Perez",
+      title: "Contador",
+      subheader: "Contabilidad",
+    },
+    {
+      id: 5,
+      name: "Burry Tunez",
+      title: "Diseñador Gráfico",
+      subheader: "Diseño",
+    },
+    { id: 6, name: "Rambo Rey", title: "Médico", subheader: "Salud" },
+    { id: 7, name: "Ignacio Maya", title: "Abogado", subheader: "Legal" },
+    {
+      id: 8,
+      name: "Luciano Piriz",
+      title: "Marketing Manager",
+      subheader: "Marketing",
+    },
+    {
+      id: 9,
+      name: "Antonio Aguilar",
+      title: "Recursos Humanos",
+      subheader: "RRHH",
+    },
+    {
+      id: 10,
+      name: "Roberto Cadiz",
+      title: "Consultor de Negocios",
+      subheader: "Consultoría",
+    },
   ];
 
   const itemsPerPage = 2;
@@ -95,7 +137,8 @@ const Index = () => {
   };
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const visibleCards = cardData.slice(startIndex, startIndex + itemsPerPage);
+  const endIndex = startIndex + itemsPerPage;
+  const visibleCards = cardData.slice(startIndex, endIndex);
 
   return (
     <HomeContainer>
@@ -119,7 +162,12 @@ const Index = () => {
         {visibleCards.map((card) => (
           <Grid item xs={12} sm={6} md={4} key={card.id}>
             <CardBox p={5} mb={5}>
-              <CardUser id={card.id} name={card.name} />
+              <CardUser
+                id={card.id}
+                name={card.name}
+                title={card.title}
+                subheader={card.subheader}
+              />
             </CardBox>
           </Grid>
         ))}
@@ -163,7 +211,11 @@ const Index = () => {
         }}
         buttonText="UNDERSTAND"
       >
-        THIS SITE USES COOKIES. SEE OUR{" "}<Link href="/" style={{color: "blue"}}>POLICY</Link>.
+        THIS SITE USES COOKIES. SEE OUR{" "}
+        <Link href="/" style={{ color: "blue" }}>
+          POLICY
+        </Link>
+        .
       </CookieConsent>
     </HomeContainer>
   );

@@ -3,7 +3,9 @@ import { Grid, Container, TextField, Button, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
 import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
-import ContactMailIcon from '@mui/icons-material/ContactMail';
+import ContactMailIcon from "@mui/icons-material/ContactMail";
+import { motion } from "framer-motion";
+import { fadeIn } from "@/variants";
 
 const FormContainer = styled(Container)`
   display: flex;
@@ -44,15 +46,20 @@ const ContactForm = () => {
   };
 
   return (
-    <FormContainer>
+    <motion.FormContainer
+      variants={fadeIn("up", 0.3)}
+      initial="hidden"
+      whileInView={"show"}
+      viewport={{ once: false, amount: 0.7 }}
+    >
       <Grid container justifyContent="center">
         <Grid item xs={12} sm={6} md={4}>
           <Typography variant="h5" color="primary" align="center">
             CONTACT US
           </Typography>
-           <IconContainer>
-              <CustomContactMailIcon />
-            </IconContainer>
+          <IconContainer>
+            <CustomContactMailIcon />
+          </IconContainer>
           <Typography
             variant="body1"
             color="textSecondary"
@@ -111,7 +118,7 @@ const ContactForm = () => {
           </form>
         </Grid>
       </Grid>
-    </FormContainer>
+    </motion.FormContainer>
   );
 };
 

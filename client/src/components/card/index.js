@@ -26,13 +26,16 @@ const ProfileAvatar = styled(Avatar)`
 `;
 
 const CustomCard = styled(Card)`
-border: 1px solid rgba(150, 150, 150, 0.5);
-border-radius: 5px;
-box-shadow: 5px 5px 5px rgb(220, 220, 220);
-`
+  border: 1px solid rgba(150, 150, 150, 0.5);
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px rgb(220, 220, 220);
+  width: 250px;
+  height: 300px;
+`;
 
-const CardUser = ({ id, name }) => {
+const CardUser = ({ id, name, title, subheader }) => {
   const router = useRouter();
+
   return (
     <CustomCard>
       <CardHeader
@@ -41,8 +44,8 @@ const CardUser = ({ id, name }) => {
             <GradeIcon color="warning" />
           </IconButton>
         }
-        title={"DevOps Engineer"}
-        subheader={"Cloud Computing"}
+        title={title}
+        subheader={subheader}
       />
       <IconContainer>
         <ProfileAvatar src="" alt="" />
