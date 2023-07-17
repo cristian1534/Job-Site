@@ -19,6 +19,14 @@ const FormContainer = styled(Container)`
     width: calc(50% - 5rem);
     margin: 0 auto;
   }
+
+  @media (max-width: 767px) {
+    button {
+      width: auto;
+      height: 50px;
+      padding: 1rem;
+    }
+  }
 `;
 
 const Form = styled("form")`

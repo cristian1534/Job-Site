@@ -9,14 +9,18 @@ import {
   Box,
   styled,
   Avatar,
+  Container,
 } from "@mui/material";
 import GradeIcon from "@mui/icons-material/Grade";
 import { useRouter } from "next/router";
+import { motion } from "framer-motion";
+import { fadeIn } from "@/variants";
 
 const IconContainer = styled("div")`
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
+  align-items: center;
 `;
 
 const ProfileAvatar = styled(Avatar)`
@@ -33,38 +37,50 @@ const CustomCard = styled(Card)`
   height: 300px;
 `;
 
+const CustomCardHeader = styled(CardHeader)`
+  height: 70px;
+  margin-top: 15px;
+`;
+
 const CardUser = ({ id, name, title, subheader }) => {
   const router = useRouter();
 
   return (
-    <CustomCard>
-      <CardHeader
-        action={
-          <IconButton>
-            <GradeIcon color="warning" />
-          </IconButton>
-        }
-        title={title}
-        subheader={subheader}
-      />
-      <IconContainer>
-        <ProfileAvatar src="" alt="" />
-      </IconContainer>
-      <CardContent>
-        <Box display="flex" flexDirection="column" alignItems="center">
-          <Typography variant="body2" color="textSecondary" mb={1}>
-            {name}
-          </Typography>
-          <Button
-            variant="contained"
-            size="small"
-            onClick={() => router.push(`/profile/${id}`)}
-          >
-            Contact
-          </Button>
-        </Box>
-      </CardContent>
-    </CustomCard>
+    <motion.Container
+      variants={fadeIn("down", 0.3)}
+      initial="hidden"
+      whileInView={"show"}
+      viewport={{ once: false, amount: 0.7 }}
+    >
+      <CustomCard>
+        <CustomCardHeader
+          action={
+            <IconButton>
+              <GradeIcon color="warning" />
+            </IconButton>
+          }
+          title={title}
+          subheader={subheader}
+        />
+        <IconContainer>
+          <ProfileAvatar src="" alt="" />
+        </IconContainer>
+        <CardContent>
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <Typography variant="body2" color="textSecondary" mb={1}>
+              {name}
+            </Typography>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={() => router.push(`/profile/${id}`)}
+            >
+              Contact
+            </Button>
+          </Box>
+        </CardContent>
+      </CustomCard>
+    </motion.Container>
   );
 };
 

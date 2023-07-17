@@ -12,8 +12,6 @@ import LineTime from "@/components/LineTime/LineTime";
 import CookieConsent from "react-cookie-consent";
 import Link from "next/link";
 
-
-
 // Styles...
 const CardBox = styled(Box)`
   display: flex;
@@ -60,7 +58,7 @@ const PaginationContainer = styled(Box)`
 
 const Index = () => {
   const content = {
-    title: "We're excited to have you here! Today holds great potential.",
+    title: "We're excited to have you here!",
     subTitle:
       "At WORK WISE, we offer top-notch freelancers across various categories, ensuring exceptional experience and quality.",
     url: "https://img.freepik.com/free-vector/builders-construction-workers-helmets_107791-12576.jpg",
@@ -194,29 +192,39 @@ const Index = () => {
       <LineTime />
       <ContactForm />
       <CookieConsent
-        debug={true}
-        location="bottom"
-        style={{
-          textAlign: "center",
-          color: "#fff",
-          backgroundColor: "#00AAEF",
-          font: "14px",
-        }}
-        buttonStyle={{
-          background: "#fff",
-          color: "#00AAEF",
-          fontSize: "14px",
-          borderRadius: "10px",
-          padding: "1rem",
-        }}
-        buttonText="UNDERSTAND"
-      >
-        THIS SITE USES COOKIES. SEE OUR{" "}
-        <Link href="/" style={{ color: "blue" }}>
-          POLICY
+      debug={true}
+      location="bottom"
+      style={{
+        textAlign: "center",
+        color: "#fff",
+        backgroundColor: "#333",
+        fontSize: "18px",
+        padding: "1rem",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
+        display: "flex",
+        alignItems: "center",
+        maxHeight: "150px",
+        overflow: "auto",
+      }}
+      buttonStyle={{
+        background: "#00AAEF",
+        color: "#FFF",
+        fontSize: "14px",
+        borderRadius: "4px",
+        padding: "0.5rem 1rem",
+        fontWeight: "bold",
+        marginTop: "1rem",
+      }}
+      buttonText="Understand"
+    >
+      <div style={{ marginBottom: "1rem" }}>
+        This site uses cookies. See our{" "}
+        <Link href="/" style={{ color: "#00AAEF" }}>
+          policy
         </Link>
         .
-      </CookieConsent>
+      </div>
+    </CookieConsent>
     </HomeContainer>
   );
 };

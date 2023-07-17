@@ -1,8 +1,15 @@
 import React from "react";
-import { Grid, TextField, Button, Stack, Typography, Container } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Button,
+  Stack,
+  Typography,
+  Container,
+  Link,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
-import Link from "next/link";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import WorkIcon from "@mui/icons-material/Work";
 
@@ -42,8 +49,14 @@ const RedirectTypography = styled(Typography)`
   align-items: center;
   justify-content: center;
   a {
-    ::before {
-      content: " ";
+    display: inline-block;
+    margin-left: 5px;
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    &:hover {
+      color: #1565c0;
     }
   }
 `;
@@ -70,7 +83,12 @@ const Register = () => {
       <Grid container justifyContent="center">
         <Grid item xs={12} sm={8} md={6} lg={4}>
           <Form noValidate onSubmit={handleSubmit(onSubmit)}>
-            <GreyTypography variant="h5" m={2} align="center">
+            <GreyTypography
+              variant="h5"
+              m={2}
+              align="center"
+              style={{ color: "#1976d2" }}
+            >
               Welcome to WORK WISE
             </GreyTypography>
             <IconContainer>
@@ -107,11 +125,9 @@ const Register = () => {
                 Register
               </Button>
               <RedirectTypography variant="span">
-                already account?
-              </RedirectTypography>
-              <RedirectTypography variant="span">
-                <Link href="/login" style={{ textDecoration: "none" }}>
-                  LOGIN
+                Already have an account?
+                <Link href="/login" underline="none">
+                  Login
                 </Link>
               </RedirectTypography>
             </Stack>

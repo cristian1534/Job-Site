@@ -1,4 +1,3 @@
-import React from "react";
 import { Grid, Container, TextField, Button, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
@@ -46,79 +45,83 @@ const ContactForm = () => {
   };
 
   return (
-    <motion.FormContainer
+    <motion.div
       variants={fadeIn("up", 0.3)}
       initial="hidden"
       whileInView={"show"}
       viewport={{ once: false, amount: 0.7 }}
     >
-      <Grid container justifyContent="center">
-        <Grid item xs={12} sm={6} md={4}>
-          <Typography variant="h5" color="primary" align="center">
-            CONTACT US
-          </Typography>
-          <IconContainer>
-            <CustomContactMailIcon />
-          </IconContainer>
-          <Typography
-            variant="body1"
-            color="textSecondary"
-            align="center"
-            m={3}
-          >
-            Our Team will be happy to keep in touch, mail your concern.
-          </Typography>
-          <form onSubmit={handleSubmit(onSubmit)} noValidate>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  label="Name"
-                  type="text"
-                  {...register("name", { required: "Name is required" })}
-                  error={!!errors.name}
-                  helperText={errors.name?.message}
-                  variant="outlined"
-                  fullWidth
-                />
+      <FormContainer>
+        <Grid container justifyContent="center">
+          <Grid item xs={12} sm={6} md={4}>
+            <Typography variant="h5" color="primary" align="center">
+              CONTACT US
+            </Typography>
+            <IconContainer>
+              <CustomContactMailIcon />
+            </IconContainer>
+            <Typography
+              variant="body1"
+              color="textSecondary"
+              align="center"
+              m={3}
+            >
+              Our Team will be happy to keep in touch, mail your concern.
+            </Typography>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Name"
+                    type="text"
+                    {...register("name", { required: "Name is required" })}
+                    error={!!errors.name}
+                    helperText={errors.name?.message}
+                    variant="outlined"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Email"
+                    {...register("email", { required: "Email is required" })}
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
+                    type="email"
+                    variant="outlined"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Message"
+                    type="text"
+                    {...register("message", {
+                      required: "Message is required",
+                    })}
+                    error={!!errors.message}
+                    helperText={errors.message?.message}
+                    rows={4}
+                    variant="outlined"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12} textAlign="center">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    endIcon={<ForwardToInboxIcon />}
+                  >
+                    Send
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Email"
-                  {...register("email", { required: "Email is required" })}
-                  error={!!errors.email}
-                  helperText={errors.email?.message}
-                  type="email"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Message"
-                  type="text"
-                  {...register("message", { required: "Message is required" })}
-                  error={!!errors.message}
-                  helperText={errors.message?.message}
-                  rows={4}
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} textAlign="center">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  endIcon={<ForwardToInboxIcon />}
-                >
-                  Send
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
+            </form>
+          </Grid>
         </Grid>
-      </Grid>
-    </motion.FormContainer>
+      </FormContainer>
+    </motion.div>
   );
 };
 

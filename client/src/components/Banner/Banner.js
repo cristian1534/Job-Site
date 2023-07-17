@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Divider, Typography } from "@mui/material";
 import { styled } from "@mui/material";
 import Link from "next/link";
@@ -27,6 +27,16 @@ const Image = styled("img")`
 `;
 
 const Banner = (props) => {
+  const [animationTrigger, setAnimationTrigger] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimationTrigger((prevTrigger) => prevTrigger + 1);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Container>
       <BoxContainer>
@@ -34,7 +44,7 @@ const Banner = (props) => {
           <TypeAnimation
             sequence={[`${props.title}`, 2000]}
             speed={30}
-            repeat={Infinity}
+            key={animationTrigger}
           />
         </Typography>
         <motion.Box
@@ -59,30 +69,23 @@ const Banner = (props) => {
           viewport={{ once: false, amount: 0.7 }}
         >
           <Image src={props.url} alt="banner" />
+          {props.redirection && (
+            <Typography
+              variant="body1"
+              color="textSecondary"
+              align="center"
+              m={2}
+              padding="0 1rem"
+            >
+              Become part of our candidates, it is very simple just{" "}
+              <Link href="/register" style={{ textDecoration: "none" }}>
+                <b style={{ color: "#1976d2" }}>REGISTER</b>
+              </Link>{" "}
+              here.
+            </Typography>
+          )}
         </motion.Box>
       </BoxContainer>
-      {props.redirection && (
-        <motion.Box
-          variants={fadeIn("up", 0.3)}
-          initial="hidden"
-          whileInView={"show"}
-          viewport={{ once: false, amount: 0.7 }}
-        >
-          <Typography
-            variant="body1"
-            color="textSecondary"
-            align="center"
-            m={2}
-            padding="0 1rem"
-          >
-            Become part of our candidates, it is very simple just{" "}
-            <Link href="/register" style={{ textDecoration: "none" }}>
-              <b style={{ color: "#1976d2" }}>REGISTER</b>
-            </Link>{" "}
-            here.
-          </Typography>
-        </motion.Box>
-      )}
       <Divider light />
     </Container>
   );
