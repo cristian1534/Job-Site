@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal, Typography, Box } from "@mui/material";
+import { Button, Modal, Typography, Box, TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
 const CustomModal = ({ title, content, textButton }) => {
@@ -32,19 +32,34 @@ const CustomModal = ({ title, content, textButton }) => {
             bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
-            width: "90%", 
+            width: "90%",
             maxWidth: 400,
-            maxHeight: "90%", 
-            overflow: "auto", 
+            maxHeight: "90%",
+            overflow: "auto",
           }}
         >
-          <Typography variant="h5" component="h2" gutterBottom color="textSecondary">
+          <Typography
+            variant="h5"
+            component="h2"
+            gutterBottom
+            color="textSecondary"
+          >
             {title}
           </Typography>
           <Typography variant="body1" gutterBottom color="textSecondary" m={3}>
             {content}
           </Typography>
-          <Button variant="contained" onClick={handleClose} endIcon={<ForwardToInboxIcon />}>
+          <TextField
+            type="text"
+            label="Write a message..."
+            style={{ marginBottom: "1rem" }}  
+          />
+
+          <Button
+            variant="contained"
+            onClick={handleClose}
+            endIcon={<ForwardToInboxIcon />}
+          >
             {textButton}
           </Button>
         </Box>

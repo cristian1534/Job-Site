@@ -32,7 +32,7 @@ const Banner = (props) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setAnimationTrigger((prevTrigger) => prevTrigger + 1);
-    }, 2000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);

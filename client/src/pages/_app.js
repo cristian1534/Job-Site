@@ -2,6 +2,8 @@ import "@/styles/globals.css";
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layout/Layout";
 import Darkmode from "darkmode-js";
+import { Provider } from "react-redux";
+import reduxStore from "../redux/store";
 
 const options = {
   bottom: "10%",
@@ -31,8 +33,10 @@ export default function App({ Component, pageProps }) {
   }, [setIsDark]);
 
   return (
-    <Layout >
-      <Component {...pageProps} isDark={isDark} />
-    </Layout>
+    <Provider store={reduxStore}>
+      <Layout>
+        <Component {...pageProps} isDark={isDark} />
+      </Layout>
+    </Provider>
   );
 }

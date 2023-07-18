@@ -13,6 +13,8 @@ import { useForm } from "react-hook-form";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import { TypeAnimation } from "react-type-animation";
+import { useSelector, useDispatch } from "react-redux";
+import { SET_LOGIN } from "@/redux/reducers/login";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -64,6 +66,9 @@ const RedirectTypography = styled(Typography)`
 
 // Logic...
 const Login = () => {
+  const { email, password } = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+
   const form = useForm({
     defaultValues: {
       email: "",
@@ -75,9 +80,9 @@ const Login = () => {
   const { errors } = formState;
 
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(SET_LOGIN(data));
   };
-  
+
   return (
     <FormContainer>
       <Grid container justifyContent="center">
