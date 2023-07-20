@@ -18,7 +18,7 @@ const LineTime = () => {
             <TimelineDot color="primary" />
             <TimelineConnector />
           </TimelineSeparator>
-          <motion.Box
+          <motion.div
             variants={fadeIn("left", 0.3)}
             initial="hidden"
             whileInView={"show"}
@@ -33,14 +33,14 @@ const LineTime = () => {
                 many opportunities are still opened for you.
               </Typography>
             </TimelineContent>
-          </motion.Box>
+          </motion.div>
         </TimelineItem>
         <TimelineItem>
           <TimelineSeparator>
             <TimelineDot color="secondary" />
             <TimelineConnector />
           </TimelineSeparator>
-          <motion.Box
+          <motion.div
             variants={fadeIn("right", 0.3)}
             initial="hidden"
             whileInView={"show"}
@@ -55,13 +55,13 @@ const LineTime = () => {
                 profile.
               </Typography>
             </TimelineContent>
-          </motion.Box>
+          </motion.div>
         </TimelineItem>
         <TimelineItem>
           <TimelineSeparator>
             <TimelineDot color="success" />
           </TimelineSeparator>
-          <motion.Box
+          <motion.div
             variants={fadeIn("left", 0.3)}
             initial="hidden"
             whileInView={"show"}
@@ -76,7 +76,7 @@ const LineTime = () => {
                 fee or payment from your side if you get hired.
               </Typography>
             </TimelineContent>
-          </motion.Box>
+          </motion.div>
         </TimelineItem>
       </Timeline>
     </Box>

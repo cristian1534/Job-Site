@@ -222,7 +222,6 @@ const Index = () => {
         <Link href="/" style={{ color: "#00AAEF" }}>
           policy
         </Link>
-        .
       </div>
     </CookieConsent>
     </HomeContainer>

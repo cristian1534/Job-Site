@@ -9,7 +9,6 @@ import {
   Box,
   styled,
   Avatar,
-  Container,
 } from "@mui/material";
 import GradeIcon from "@mui/icons-material/Grade";
 import { useRouter } from "next/router";
@@ -46,7 +45,7 @@ const CardUser = ({ id, name, title, subheader }) => {
   const router = useRouter();
 
   return (
-    <motion.Container
+    <motion.div
       variants={fadeIn("down", 0.3)}
       initial="hidden"
       whileInView={"show"}
@@ -80,7 +79,7 @@ const CardUser = ({ id, name, title, subheader }) => {
           </Box>
         </CardContent>
       </CustomCard>
-    </motion.Container>
+    </motion.div>
   );
 };
 

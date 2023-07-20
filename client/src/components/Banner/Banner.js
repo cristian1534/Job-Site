@@ -47,7 +47,7 @@ const Banner = (props) => {
             key={animationTrigger}
           />
         </Typography>
-        <motion.Box
+        <motion.div
           variants={fadeIn("down", 0.3)}
           initial="hidden"
           whileInView={"show"}
@@ -61,8 +61,8 @@ const Banner = (props) => {
           >
             {props.subTitle}
           </Typography>
-        </motion.Box>
-        <motion.Box
+        </motion.div>
+        <motion.div
           variants={fadeIn("down", 0.3)}
           initial="hidden"
           whileInView={"show"}
@@ -84,7 +84,7 @@ const Banner = (props) => {
               here.
             </Typography>
           )}
-        </motion.Box>
+        </motion.div>
       </BoxContainer>
       <Divider light />
     </Container>
