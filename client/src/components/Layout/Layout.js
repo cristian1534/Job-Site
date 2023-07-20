@@ -2,10 +2,10 @@ import React from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, changeMode }) => {
   return (
     <div>
-      <Header />
+      <Header changeMode={changeMode}/>
       {children}
       <Footer />
     </div>

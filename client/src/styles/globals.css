@@ -2,18 +2,20 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: "Sansita", sans-serif;
 }
 
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  color: inherit;
+  font-family: "Sansita", sans-serif;
 }
 
-body {
- background-color: #ffff;
+body.dark-mode {
+  color: #fff;
 }
-
 
 body.dark-mode input.MuiInputBase-input {
   background-color: #333;

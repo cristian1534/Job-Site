@@ -1,8 +1,14 @@
-import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { Box, AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
 import { useRouter } from "next/router";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 
-export default function Header() {
+
+export default function Header({ changeMode, darkMode }) {
   const router = useRouter();
+    const sunIconStyle = {
+    color: "#fff",
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -21,7 +27,7 @@ export default function Header() {
             sx={{
               flexGrow: 1,
               display: { xs: "none", sm: "block" },
-              textAlign: "center",
+              textAlign: "start",
               cursor: "pointer",
             }}
           >
@@ -33,6 +39,9 @@ export default function Header() {
           <Button color="inherit" onClick={() => router.push("/")}>
             Meet
           </Button>
+          <IconButton onClick={() => changeMode()}>
+            {darkMode ? <Brightness4Icon /> : <Brightness7Icon sx={sunIconStyle} />}
+          </IconButton>
         </Toolbar>
       </AppBar>
     </Box>
