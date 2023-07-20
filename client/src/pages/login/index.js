@@ -12,9 +12,8 @@ import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import EngineeringIcon from "@mui/icons-material/Engineering";
-import { TypeAnimation } from "react-type-animation";
+import { SET_LOGIN  } from "@/redux/reducers/auth";
 import { useSelector, useDispatch } from "react-redux";
-import { SET_LOGIN } from "@/redux/reducers/login";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -66,7 +65,7 @@ const RedirectTypography = styled(Typography)`
 
 // Logic...
 const Login = () => {
-  const { email, password } = useSelector((state) => state.login);
+  const { email, password } = useSelector((state) => state.auth.login);
   const dispatch = useDispatch();
 
   const form = useForm({
@@ -81,6 +80,7 @@ const Login = () => {
 
   const onSubmit = (data) => {
     dispatch(SET_LOGIN(data));
+    console.log(email, password)
   };
 
   return (

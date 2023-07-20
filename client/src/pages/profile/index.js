@@ -1,23 +1,28 @@
 import React from "react";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
 import { Typography, styled, Avatar } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+import { useForm } from "react-hook-form";
+import { Select, MenuItem } from "@mui/material";
+
 
 // Styles...
 const FormContainer = styled(Container)`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
 
   @media (min-width: 768px) {
     width: calc(50% - 5rem);
     margin: 0 auto;
+    padding-top: 0;
   }
 
   @media (max-width: 767px) {
@@ -50,10 +55,32 @@ const IconContainer = styled("div")`
 
 const ProfileDetails = () => {
   const router = useRouter();
+  const form = useForm({
+    name: "",
+    email: "",
+    telephone: "",
+    address: "",
+    skills: "",
+    category: "",
+    experienceOne: "",
+    experienceOneDate: null,
+    experienceTwo: "",
+    experienceTwoDate: null,
+    photo: "",
+  });
+
+  const { register, handleSubmit, formState } = form;
+  const { errors } = formState;
+
+  const onSubmit = (data) => {
+    const photoFile = data.photo;
+    console.log(photoFile);
+    console.log(data);
+  };
 
   return (
-    <FormContainer>
-      <Form noValidate>
+    <FormContainer style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+      <Form noValidate onSubmit={handleSubmit(onSubmit)}>
         <Typography variant="h4" textAlign="center" color="textSecondary">
           WORK WISE
         </Typography>
@@ -73,7 +100,9 @@ const ProfileDetails = () => {
             <TextField
               label="Name"
               type="text"
-              disabled
+              {...register("name", { required: "Name is required" })}
+              error={!!errors.name}
+              helperText={errors.name?.message}
               variant="outlined"
               fullWidth
             />
@@ -82,7 +111,9 @@ const ProfileDetails = () => {
             <TextField
               label="Email"
               type="email"
-              disabled
+              {...register("email", { required: "Email is required" })}
+              error={!!errors.email}
+              helperText={errors.email?.message}
               variant="outlined"
               fullWidth
             />
@@ -91,7 +122,9 @@ const ProfileDetails = () => {
             <TextField
               label="Telephone"
               type="tel"
-              disabled
+              {...register("telephone", { required: "Telephone is required" })}
+              error={!!errors.telephone}
+              helperText={errors.telephone?.message}
               variant="outlined"
               fullWidth
             />
@@ -100,10 +133,110 @@ const ProfileDetails = () => {
             <TextField
               label="Address"
               type="text"
-              disabled
+              {...register("address", { required: "Address is required" })}
+              error={!!errors.address}
+              helperText={errors.address?.message}
               variant="outlined"
               fullWidth
             />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Skills"
+              type="text"
+              {...register("skills", { required: "Skills are required" })}
+              error={!!errors.skills}
+              helperText={errors.skills?.message}
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+             <InputLabel id="select-area-label">Select Area</InputLabel>
+            <Select
+            id="select-area-label"
+              label="Category"
+              value={form.category}
+              {...register("category", { required: "Category is required" })}
+              error={!!errors.category}
+              helperText={errors.category?.message}
+              variant="outlined"
+              fullWidth
+            >
+              <MenuItem value="Technology">Technology</MenuItem>
+              <MenuItem value="Administration">Administration</MenuItem>
+              <MenuItem value="Education">Education</MenuItem>
+              <MenuItem value="Other">Other</MenuItem>
+            </Select>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Last Job Experience"
+              type="text"
+              {...register("experienceOne", {
+                required: "Experience is required",
+              })}
+              error={!!errors.experienceOne}
+              helperText={errors.experienceOne?.message}
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Last Job Experience Date"
+              type="date"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              {...register("experienceOneDate", {
+                required: "Experience date is required",
+              })}
+              error={!!errors.experienceOneDate}
+              helperText={errors.experienceOneDate?.message}
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Job Experience"
+              type="text"
+              {...register("experienceTwo", {
+                required: "Experience is required",
+              })}
+              error={!!errors.experienceTwo}
+              helperText={errors.experienceTwo?.message}
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Job Experience Date"
+              type="date"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              {...register("experienceTwoDate", {
+                required: "Experience date is required",
+              })}
+              error={!!errors.experienceTwoDate}
+              helperText={errors.experienceTwoDate?.message}
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} display="flex" justifyContent="space-between">
+            <Button
+              variant="contained"
+              color="primary"
+              component="label"
+              endIcon={<DriveFolderUploadIcon />}
+            >
+              Photo
+              <input type="file" name="photo" style={{ display: "none" }} />
+            </Button>
           </Grid>
           <Grid item xs={12} display="flex" justifyContent="space-between">
             <Button
@@ -117,11 +250,10 @@ const ProfileDetails = () => {
             <Button
               variant="contained"
               color="primary"
-              component="label"
-              endIcon={<DriveFolderUploadIcon />}
+              type="submit"
+              endIcon={<LoginOutlinedIcon />}
             >
-              Upload Image
-              <input type="file" style={{ display: "none" }} />
+              Send
             </Button>
           </Grid>
         </Grid>

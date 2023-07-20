@@ -5,6 +5,8 @@ import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/variants";
+import { SET_MESSAGE } from "@/redux/reducers/contact";
+import { useSelector, useDispatch } from "react-redux";
 
 const FormContainer = styled(Container)`
   display: flex;
@@ -30,6 +32,9 @@ const CustomContactMailIcon = styled(ContactMailIcon)`
 `;
 
 const ContactForm = () => {
+  const { name, email, message } = useSelector((state) => state.contact);
+  const dispatch = useDispatch();
+
   const form = useForm({
     defaultValues: {
       name: "",
@@ -41,7 +46,9 @@ const ContactForm = () => {
   const { errors } = formState;
 
   const onSubmit = (data) => {
-    console.log(data);
+   dispatch(SET_MESSAGE(data))
+   console.log(name, email, message)
+   
   };
 
   return (

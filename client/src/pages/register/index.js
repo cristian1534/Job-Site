@@ -12,7 +12,7 @@ import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import WorkIcon from "@mui/icons-material/Work";
-import { SET_REGISTER } from "@/redux/reducers/register";
+import { SET_REGISTER } from "@/redux/reducers/auth";
 import { useSelector, useDispatch } from "react-redux";
 
 // Styles...
@@ -65,7 +65,7 @@ const RedirectTypography = styled(Typography)`
 
 // Logic...
 const Register = () => {
-  const { name, email, password } = useSelector((state) => state.register);
+  const { name, email, password } = useSelector((state) => state.auth.register);
   const dispatch = useDispatch();
 
   const form = useForm({
