@@ -1,12 +1,23 @@
-import { Box, AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+} from "@mui/material";
 import { useRouter } from "next/router";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-
+import { useContext } from "react";
+import { userContext } from "../user/User";
 
 export default function Header({ changeMode, darkMode }) {
+  const { currentUser } = useContext(userContext);
+  
+
   const router = useRouter();
-    const sunIconStyle = {
+  const sunIconStyle = {
     color: "#fff",
   };
 
@@ -33,14 +44,22 @@ export default function Header({ changeMode, darkMode }) {
           >
             WORK WISE
           </Typography>
-          <Button color="inherit" onClick={() => router.push("/")}>
-            Chat
-          </Button>
-          <Button color="inherit" onClick={() => router.push("/")}>
-            Meet
-          </Button>
+          {currentUser && (
+            <div>
+              <Button color="inherit" onClick={() => router.push("/")}>
+                Chat
+              </Button>
+              <Button color="inherit" onClick={() => router.push("/")}>
+                Meet
+              </Button>
+            </div>
+          )}
           <IconButton onClick={() => changeMode()}>
-            {darkMode ? <Brightness4Icon /> : <Brightness7Icon sx={sunIconStyle} />}
+            {darkMode ? (
+              <Brightness4Icon />
+            ) : (
+              <Brightness7Icon sx={sunIconStyle} />
+            )}
           </IconButton>
         </Toolbar>
       </AppBar>

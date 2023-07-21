@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useRouter } from "next/router";
 import {
   Grid,
   TextField,
@@ -12,8 +13,10 @@ import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import EngineeringIcon from "@mui/icons-material/Engineering";
-import { SET_LOGIN  } from "@/redux/reducers/auth";
-import { useSelector, useDispatch } from "react-redux";
+import { useFirebaseApp } from "reactfire";
+import "firebase/auth";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -65,8 +68,22 @@ const RedirectTypography = styled(Typography)`
 
 // Logic...
 const Login = () => {
-  const { email, password } = useSelector((state) => state.auth.login);
-  const dispatch = useDispatch();
+  const firebase = useFirebaseApp();
+  const formRef = useRef(null);
+  const router = useRouter();
+
+  const notify = (message, type) => {
+    switch (type) {
+      case "success":
+        toast.success(message);
+        break;
+      case "error":
+        toast.error(message);
+        break;
+      default:
+        toast(message);
+    }
+  };
 
   const form = useForm({
     defaultValues: {
@@ -79,15 +96,28 @@ const Login = () => {
   const { errors } = formState;
 
   const onSubmit = (data) => {
-    dispatch(SET_LOGIN(data));
-    console.log(email, password)
+    try {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(data.email, data.password)
+        .then((data) => {
+          notify("You've logged in successfully", "success");
+          setTimeout(() => router.push("/"), 3000);
+        })
+        .catch((err) => {
+          notify("Email or Password Wrong", "error");
+        });
+      formRef.current.reset();
+    } catch (err) {
+      return err.message;
+    }
   };
 
   return (
     <FormContainer>
       <Grid container justifyContent="center">
         <Grid item xs={12} sm={8} md={6} lg={4}>
-          <Form noValidate onSubmit={handleSubmit(onSubmit)}>
+          <Form noValidate onSubmit={handleSubmit(onSubmit)} ref={formRef}>
             <GreyTypography
               variant="h5"
               m={2}
@@ -103,14 +133,26 @@ const Login = () => {
               <TextField
                 label="Email"
                 type="email"
-                {...register("email", { required: "Email is required" })}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Give a valid email",
+                  },
+                })}
                 error={!!errors.email}
                 helperText={errors.email?.message}
               />
               <TextField
                 label="Password"
                 type="password"
-                {...register("password", { required: "Password is required" })}
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
                 error={!!errors.password}
                 helperText={errors.password?.message}
               />
@@ -122,6 +164,16 @@ const Login = () => {
               >
                 Login
               </Button>
+              <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                pauseOnHover={false}
+                transition={Slide}
+                hideProgressBar={false}
+                closeOnClick={true}
+                limit={5}
+                theme="light"
+              />
               <RedirectTypography variant="span">
                 Don't have an account?
                 <Link href="/register" underline="none">

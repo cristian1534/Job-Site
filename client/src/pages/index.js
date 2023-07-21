@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CardUser from "@/components/card";
 import { Container, Grid, Box, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material";
@@ -11,6 +11,8 @@ import ContactForm from "@/components/Contact/ContactForm";
 import LineTime from "@/components/LineTime/LineTime";
 import CookieConsent from "react-cookie-consent";
 import Link from "next/link";
+
+
 
 // Styles...
 const CardBox = styled(Box)`
@@ -129,6 +131,10 @@ const Index = () => {
   const itemsPerPage = 2;
   const totalPages = Math.ceil(cardData.length / itemsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
+  
+   
+
+  
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -137,6 +143,8 @@ const Index = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const visibleCards = cardData.slice(startIndex, endIndex);
+
+  
 
   return (
     <HomeContainer>

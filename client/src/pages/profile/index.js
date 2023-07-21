@@ -74,8 +74,6 @@ const ProfileDetails = () => {
 
   const onSubmit = (data) => {
     const photoFile = data.photo;
-    console.log(photoFile);
-    console.log(data);
   };
 
   return (

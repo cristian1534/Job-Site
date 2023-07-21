@@ -8,15 +8,38 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import Paper from "@mui/material/Paper";
 import { useRouter } from "next/router";
-
+import { useContext } from "react";
+import { userContext } from "../user/User";
+import { firebaseApp } from "@/database/config";
 
 const Footer = () => {
   const [value, setValue] = useState(0);
+  const { currentUser } = useContext(userContext);
   const ref = useRef(null);
   const router = useRouter();
 
   const handleNavigation = (path) => {
     router.push(path);
+  };
+
+  const logout = async () => {
+    try {
+      await firebaseApp
+        .auth()
+        .signOut()
+        .then(() => {
+         router.push("/login");
+        });
+    } catch (err) {
+      return err.message;
+    }
+  };
+
+  const iconContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    color: "#1976d2",
   };
 
   return (
@@ -33,25 +56,51 @@ const Footer = () => {
           }}
         >
           <BottomNavigationAction
-            label="Register"
-            icon={<HowToRegIcon />}
-            onClick={() => handleNavigation("/register")}
+            key="logout"
+            icon={
+              <div style={iconContainerStyle}>
+                <LogoutIcon />
+                <span>Logout</span>
+              </div>
+            }
+            onClick={() => logout()}
           />
+
           <BottomNavigationAction
-            label="Login"
-            icon={<LoginIcon />}
-            onClick={() => handleNavigation("/login")}
-          />
-          <BottomNavigationAction
-            label="Logout"
-            icon={<LogoutIcon />}
-            onClick={() => handleNavigation("/")}
-          />
-          <BottomNavigationAction
-            label="Profile"
-            icon={<AccountBoxIcon />}
+            key="profile"
+            icon={
+              <div style={iconContainerStyle}>
+                <AccountBoxIcon />
+                <span>Profile</span>
+              </div>
+            }
             onClick={() => handleNavigation("/profile")}
           />
+          {!currentUser && (
+            <div>
+              <BottomNavigationAction
+                key="register"
+                icon={
+                  <div style={iconContainerStyle}>
+                    <HowToRegIcon />
+                    <span>Register</span>
+                  </div>
+                }
+                onClick={() => handleNavigation("/register")}
+              />
+
+              <BottomNavigationAction
+                key="login"
+                icon={
+                  <div style={iconContainerStyle}>
+                    <LoginIcon />
+                    <span>Login</span>
+                  </div>
+                }
+                onClick={() => handleNavigation("/login")}
+              />
+            </div>
+          )}
         </BottomNavigation>
       </Paper>
     </Box>

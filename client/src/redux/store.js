@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer  from "@/redux/reducers/auth";
 import contactReducer from "./reducers/contact";
+import profileReducer from "./reducers/profile";
 
 export default configureStore({
   reducer: {
-    auth: authReducer,
     contact: contactReducer,
+    profile: profileReducer,
   },
 });

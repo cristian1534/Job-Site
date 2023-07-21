@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useRouter } from "next/router";
 import {
   Grid,
   TextField,
@@ -12,8 +13,9 @@ import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import WorkIcon from "@mui/icons-material/Work";
-import { SET_REGISTER } from "@/redux/reducers/auth";
-import { useSelector, useDispatch } from "react-redux";
+import { db } from "../../database/config";
+import { useFirebaseApp } from "reactfire";
+import "firebase/auth";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -65,8 +67,9 @@ const RedirectTypography = styled(Typography)`
 
 // Logic...
 const Register = () => {
-  const { name, email, password } = useSelector((state) => state.auth.register);
-  const dispatch = useDispatch();
+  const firebase = useFirebaseApp();
+  const formRef = useRef(null);
+  const router = useRouter();
 
   const form = useForm({
     defaultValues: {
@@ -79,16 +82,36 @@ const Register = () => {
   const { register, handleSubmit, formState } = form;
   const { errors } = formState;
 
-  const onSubmit = (data) => {
-    dispatch(SET_REGISTER(data));
-    console.log(name, email, password)
+  const onSubmit = async (data) => {
+    try {
+      const userCredential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(data.email, data.password);
+
+      const user = userCredential.user;
+
+      await user.updateProfile({
+        displayName: data.name,
+      });
+
+      await db.collection("Subscription").add({
+        uid: user.uid,
+        name: data.name,
+        email: data.email,
+      });
+
+      formRef.current.reset();
+      router.push("/login");
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   return (
     <FormContainer>
       <Grid container justifyContent="center">
         <Grid item xs={12} sm={8} md={6} lg={4}>
-          <Form noValidate onSubmit={handleSubmit(onSubmit)}>
+          <Form noValidate onSubmit={handleSubmit(onSubmit)} ref={formRef}>
             <GreyTypography
               variant="h5"
               m={2}
@@ -111,14 +134,26 @@ const Register = () => {
               <TextField
                 label="Email"
                 type="email"
-                {...register("email", { required: "Email is required" })}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Give a valid email",
+                  },
+                })}
                 error={!!errors.email}
                 helperText={errors.email?.message}
               />
               <TextField
                 label="Password"
                 type="password"
-                {...register("password", { required: "Password is required" })}
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
                 error={!!errors.password}
                 helperText={errors.password?.message}
               />

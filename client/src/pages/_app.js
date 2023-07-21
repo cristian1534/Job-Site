@@ -5,9 +5,14 @@ import reduxStore from "../redux/store";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useState, useEffect } from "react";
+import { firebaseApp } from "@/database/config";
+import { FirebaseAppProvider } from "reactfire";
+import { UserProvider } from "@/components/user/User";
+import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps, router }) {
   const [darkMode, setDarkMode] = useState(false);
+
   const darkTheme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
@@ -16,7 +21,6 @@ export default function App({ Component, pageProps }) {
 
   const changeMode = () => {
     setDarkMode(!darkMode);
-    console.log(darkMode);
   };
 
   useEffect(() => {
@@ -27,14 +31,32 @@ export default function App({ Component, pageProps }) {
     }
   }, [darkMode]);
 
+  const isLoginPage =
+    router.pathname === "/login" || router.pathname === "/register";
+
   return (
-    <Provider store={reduxStore}>
+    <FirebaseAppProvider firebaseApp={firebaseApp}>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <Layout changeMode={changeMode}>
-          <Component {...pageProps} />
-        </Layout>
+        <UserProvider>
+          <Provider store={reduxStore}>
+            {!isLoginPage && (
+              <Layout changeMode={changeMode}>
+                {
+                  (router.pathname === "/" ? (
+                    <PrivateRoute>
+                      <Component {...pageProps} />
+                    </PrivateRoute>
+                  ) : (
+                    <Component {...pageProps} />
+                  ))
+                }
+              </Layout>
+            )}
+            {isLoginPage && <Component {...pageProps} />}
+          </Provider>
+        </UserProvider>
       </ThemeProvider>
-    </Provider>
+    </FirebaseAppProvider>
   );
 }
