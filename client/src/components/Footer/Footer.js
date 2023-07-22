@@ -49,7 +49,6 @@ const Footer = () => {
         elevation={3}
       >
         <BottomNavigation
-          showLabels
           value={value}
           onChange={(event, newValue) => {
             setValue(newValue);

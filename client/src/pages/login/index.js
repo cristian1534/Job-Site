@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
   Grid,
@@ -17,6 +17,7 @@ import { useFirebaseApp } from "reactfire";
 import "firebase/auth";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { TypeAnimation } from "react-type-animation";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -72,6 +73,16 @@ const Login = () => {
   const formRef = useRef(null);
   const router = useRouter();
 
+  const [animationTrigger, setAnimationTrigger] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimationTrigger((prevTrigger) => prevTrigger + 1);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const notify = (message, type) => {
     switch (type) {
       case "success":
@@ -124,7 +135,11 @@ const Login = () => {
               align="center"
               style={{ color: "#1976d2" }}
             >
-              Let's find a Job!
+              <TypeAnimation
+                sequence={["TIME TO WORK!", 2000]}
+                speed={30}
+                key={animationTrigger}
+              />
             </GreyTypography>
             <IconContainer>
               <CustomEngineeringIcon />

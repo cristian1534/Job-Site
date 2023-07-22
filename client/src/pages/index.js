@@ -11,9 +11,10 @@ import ContactForm from "@/components/Contact/ContactForm";
 import LineTime from "@/components/LineTime/LineTime";
 import CookieConsent from "react-cookie-consent";
 import Link from "next/link";
-
-
-
+import { Link as Scroll } from "react-scroll";
+import EmailIcon from "@mui/icons-material/Email";
+import { useDispatch } from "react-redux";
+import { fetchMessages } from "@/redux/reducers/contact";
 // Styles...
 const CardBox = styled(Box)`
   display: flex;
@@ -131,10 +132,6 @@ const Index = () => {
   const itemsPerPage = 2;
   const totalPages = Math.ceil(cardData.length / itemsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
-  
-   
-
-  
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -143,8 +140,11 @@ const Index = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const visibleCards = cardData.slice(startIndex, endIndex);
-
+  const dispatch = useDispatch();
   
+  useEffect(() => {
+    dispatch(fetchMessages());
+  }, []);
 
   return (
     <HomeContainer>
@@ -198,40 +198,56 @@ const Index = () => {
       </PaginationContainer>
       <Banner {...process} />
       <LineTime />
-      <ContactForm />
+      <section id="contact">
+        <ContactForm />
+      </section>
       <CookieConsent
-      debug={true}
-      location="bottom"
-      style={{
-        textAlign: "center",
-        color: "#fff",
-        backgroundColor: "#333",
-        fontSize: "18px",
-        padding: "1rem",
-        boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-        display: "flex",
-        alignItems: "center",
-        maxHeight: "150px",
-        overflow: "auto",
-      }}
-      buttonStyle={{
-        background: "#00AAEF",
-        color: "#FFF",
-        fontSize: "14px",
-        borderRadius: "4px",
-        padding: "0.5rem 1rem",
-        fontWeight: "bold",
-        marginTop: "1rem",
-      }}
-      buttonText="Understand"
-    >
-      <div style={{ marginBottom: "1rem" }}>
-        This site uses cookies. See our{" "}
-        <Link href="/" style={{ color: "#00AAEF" }}>
-          policy
-        </Link>
-      </div>
-    </CookieConsent>
+        debug={true}
+        location="bottom"
+        style={{
+          textAlign: "center",
+          color: "#fff",
+          backgroundColor: "#00AAEF",
+          fontSize: "18px",
+          padding: "1rem",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
+          display: "flex",
+          alignItems: "center",
+          alignContent: "center",
+          maxHeight: "150px",
+          overflow: "auto",
+        }}
+        buttonStyle={{
+          background: "#FFF",
+          color: "#00AAEF",
+          fontSize: "14px",
+          borderRadius: "4px",
+          padding: "0.5rem 1rem",
+          fontWeight: "bold",
+          marginTop: "0.5rem",
+        }}
+        buttonText="Understand"
+      >
+        <div style={{ marginBottom: "1rem" }}>
+          We use cookies. See our{" "}
+          <Link href="/" style={{ color: "#fff" }}>
+            policy
+          </Link>
+        </div>
+      </CookieConsent>
+
+      <Box
+        position="fixed"
+        left="5px"
+        zIndex={1000}
+        transform="translate(-50%, 0)"
+      >
+        <Scroll to="contact">
+          <Button variant="contained" color="primary">
+            <EmailIcon />
+          </Button>
+        </Scroll>
+      </Box>
     </HomeContainer>
   );
 };

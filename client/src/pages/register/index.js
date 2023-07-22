@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
   Grid,
@@ -13,6 +13,7 @@ import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import WorkIcon from "@mui/icons-material/Work";
+import { TypeAnimation } from "react-type-animation";
 import { db } from "../../database/config";
 import { useFirebaseApp } from "reactfire";
 import "firebase/auth";
@@ -70,7 +71,15 @@ const Register = () => {
   const firebase = useFirebaseApp();
   const formRef = useRef(null);
   const router = useRouter();
+  const [animationTrigger, setAnimationTrigger] = useState(0);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimationTrigger((prevTrigger) => prevTrigger + 1);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
   const form = useForm({
     defaultValues: {
       name: "",
@@ -118,7 +127,12 @@ const Register = () => {
               align="center"
               style={{ color: "#1976d2" }}
             >
-              Welcome to WORK WISE
+               <TypeAnimation
+            sequence={["WELCOME TO WORK WISE", 2000]}
+            speed={30}
+            key={animationTrigger}
+          />
+          
             </GreyTypography>
             <IconContainer>
               <CustomWorkIcon />

@@ -14,6 +14,7 @@ import GradeIcon from "@mui/icons-material/Grade";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/variants";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 
 const IconContainer = styled("div")`
   display: flex;
@@ -74,7 +75,8 @@ const CardUser = ({ id, name, title, subheader }) => {
               size="small"
               onClick={() => router.push(`/profile/${id}`)}
             >
-              Contact
+              <ManageSearchIcon />
+              PROFILE
             </Button>
           </Box>
         </CardContent>

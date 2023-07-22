@@ -5,8 +5,10 @@ import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/variants";
-import { SET_MESSAGE } from "@/redux/reducers/contact";
-import { useSelector, useDispatch } from "react-redux";
+import { db } from "@/database/config";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRef } from "react";
 
 const FormContainer = styled(Container)`
   display: flex;
@@ -32,9 +34,6 @@ const CustomContactMailIcon = styled(ContactMailIcon)`
 `;
 
 const ContactForm = () => {
-  const { name, email, message } = useSelector((state) => state.contact);
-  const dispatch = useDispatch();
-
   const form = useForm({
     defaultValues: {
       name: "",
@@ -44,12 +43,40 @@ const ContactForm = () => {
   });
   const { register, handleSubmit, formState } = form;
   const { errors } = formState;
+  const formRef = useRef(null);
 
-  const onSubmit = (data) => {
-   dispatch(SET_MESSAGE(data))
-   console.log(name, email, message)
-   
+  const notify = (message, type) => {
+    switch (type) {
+      case "success":
+        toast.success(message);
+        break;
+      case "error":
+        toast.error(message);
+        break;
+      default:
+        toast(message);
+    }
   };
+
+  const onSubmit = async (data) => {
+    try {
+      await db
+        .collection("messages")
+        .add({
+          name: data.name,
+          email: data.email,
+          message: data.message,
+        })
+        .then((docRef) => {
+          formRef.current.reset();
+          notify(`We register your message as Id: ${docRef.id}`);
+        });
+    } catch (err) {
+      return err.message;
+    }
+  };
+
+
 
   return (
     <motion.div
@@ -75,7 +102,7 @@ const ContactForm = () => {
             >
               Our Team will be happy to keep in touch, mail your concern.
             </Typography>
-            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate ref={formRef}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
@@ -91,7 +118,13 @@ const ContactForm = () => {
                 <Grid item xs={12}>
                   <TextField
                     label="Email"
-                    {...register("email", { required: "Email is required" })}
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                        message: "Give a valid email",
+                      },
+                    })}
                     error={!!errors.email}
                     helperText={errors.email?.message}
                     type="email"
@@ -122,6 +155,16 @@ const ContactForm = () => {
                   >
                     Send
                   </Button>
+                  <ToastContainer
+                    position="top-center"
+                    autoClose={3000}
+                    pauseOnHover={false}
+                    transition={Slide}
+                    hideProgressBar={false}
+                    closeOnClick={true}
+                    limit={5}
+                    theme="light"
+                  />
                 </Grid>
               </Grid>
             </form>

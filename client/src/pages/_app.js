@@ -9,9 +9,11 @@ import { firebaseApp } from "@/database/config";
 import { FirebaseAppProvider } from "reactfire";
 import { UserProvider } from "@/components/user/User";
 import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
+import Loader from "../components/Loader/Loader";
 
 export default function App({ Component, pageProps, router }) {
   const [darkMode, setDarkMode] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
 
   const darkTheme = createTheme({
     palette: {
@@ -31,8 +33,17 @@ export default function App({ Component, pageProps, router }) {
     }
   }, [darkMode]);
 
-  const isLoginPage =
-    router.pathname === "/login" || router.pathname === "/register";
+  useEffect(() => {
+    firebaseApp.auth().onAuthStateChanged((user) => {
+      setAuthLoading(false);
+    });
+  }, []);
+
+  const authRequired = ["/"];
+
+  const isLoginPage = router.pathname === "/login";
+  const isRegisterPage = router.pathname === "/register";
+  const isAuthRequiredPage = authRequired.includes(router.pathname);
 
   return (
     <FirebaseAppProvider firebaseApp={firebaseApp}>
@@ -40,20 +51,23 @@ export default function App({ Component, pageProps, router }) {
         <CssBaseline />
         <UserProvider>
           <Provider store={reduxStore}>
-            {!isLoginPage && (
+            {authLoading ? (
+              <div>
+                <Loader />
+              </div>
+            ) : isAuthRequiredPage ? (
+              <PrivateRoute>
+                <Layout changeMode={changeMode}>
+                  <Component {...pageProps} />
+                </Layout>
+              </PrivateRoute>
+            ) : isLoginPage || isRegisterPage ? (
+              <Component {...pageProps} />
+            ) : (
               <Layout changeMode={changeMode}>
-                {
-                  (router.pathname === "/" ? (
-                    <PrivateRoute>
-                      <Component {...pageProps} />
-                    </PrivateRoute>
-                  ) : (
-                    <Component {...pageProps} />
-                  ))
-                }
+                <Component {...pageProps} />
               </Layout>
             )}
-            {isLoginPage && <Component {...pageProps} />}
           </Provider>
         </UserProvider>
       </ThemeProvider>

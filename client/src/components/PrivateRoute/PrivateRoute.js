@@ -1,18 +1,27 @@
 import { useEffect, useContext } from "react";
 import { useRouter } from "next/router";
-import { userContext } from "../user/User";
+import { userContext } from "@/components/user/User";
+import Loader from "../Loader/Loader";
 
 const PrivateRoute = ({ children }) => {
-  const router = useRouter();
   const { currentUser } = useContext(userContext);
+  const router = useRouter();
 
   useEffect(() => {
     if (!currentUser) {
-      router.replace("/login");
+      router.push("/login");
     }
   }, [currentUser, router]);
 
-  return currentUser ? children : null;
+  if (currentUser) {
+    return children;
+  }
+
+  return (
+    <div>
+      <Loader />
+    </div>
+  );
 };
 
 export default PrivateRoute;

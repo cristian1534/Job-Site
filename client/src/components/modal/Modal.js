@@ -16,7 +16,7 @@ const CustomModal = ({ title, content, textButton }) => {
   return (
     <div>
       <Button variant="contained" onClick={handleOpen} endIcon={<SendIcon />}>
-        Contact
+        Hire
       </Button>
       <Modal open={open} onClose={handleClose}>
         <Box
@@ -52,7 +52,7 @@ const CustomModal = ({ title, content, textButton }) => {
           <TextField
             type="text"
             label="Write a message..."
-            style={{ marginBottom: "1rem" }}  
+            style={{ marginBottom: "1rem" }}
           />
 
           <Button

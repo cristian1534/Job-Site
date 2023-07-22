@@ -11,7 +11,7 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import { useForm } from "react-hook-form";
 import { Select, MenuItem } from "@mui/material";
-
+import { useSelector } from "react-redux";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -71,6 +71,7 @@ const ProfileDetails = () => {
 
   const { register, handleSubmit, formState } = form;
   const { errors } = formState;
+  const { messages } = useSelector((state) => state.contact)
 
   const onSubmit = (data) => {
     const photoFile = data.photo;
@@ -78,6 +79,11 @@ const ProfileDetails = () => {
 
   return (
     <FormContainer style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+      {
+        messages.map(x => (
+          <p key={x}>{x.name}</p>
+        ))
+      }
       <Form noValidate onSubmit={handleSubmit(onSubmit)}>
         <Typography variant="h4" textAlign="center" color="textSecondary">
           WORK WISE
@@ -243,7 +249,7 @@ const ProfileDetails = () => {
               onClick={() => router.push("/")}
               startIcon={<ReplyAllIcon />}
             >
-              Go Back
+              Back
             </Button>
             <Button
               variant="contained"

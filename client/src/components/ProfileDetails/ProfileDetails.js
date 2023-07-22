@@ -103,7 +103,7 @@ const ProfileDetails = ({ profile }) => {
               value={address}
               disabled
               variant="outlined"
-              fullWidth
+              fullWidth 
               required
             />
           </Grid>
@@ -114,7 +114,7 @@ const ProfileDetails = ({ profile }) => {
               onClick={() => router.push("/")}
               startIcon={<ReplyAllIcon/>}
             >
-              Go Back 
+              Back 
             </Button>
             <CustomModal
               title="SELECT THIS CANDIDATE"
@@ -122,7 +122,7 @@ const ProfileDetails = ({ profile }) => {
               textButton="Send"
             />
           </Grid>
-        </Grid>
+        </Grid> 
       </Form>
     </FormContainer>
   );
