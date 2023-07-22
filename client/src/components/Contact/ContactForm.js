@@ -69,7 +69,10 @@ const ContactForm = () => {
         })
         .then((docRef) => {
           formRef.current.reset();
-          notify(`We register your message as Id: ${docRef.id}`);
+          notify(`We register your message as Id: ${docRef.id}`, "success");
+        })
+        .catch((err) => {
+          notify("We can not get your message at the moment.", "error");
         });
     } catch (err) {
       return err.message;

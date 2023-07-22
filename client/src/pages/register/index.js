@@ -29,7 +29,7 @@ const FormContainer = styled(Container)`
 const Form = styled("form")`
   padding: 30px;
   border: 1px solid rgba(150, 150, 150, 0.5);
-  border-radius: 5px;
+  border-radius: 20px;
   box-shadow: 5px 5px 5px rgb(220, 220, 220);
 `;
 

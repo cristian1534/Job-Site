@@ -13,8 +13,12 @@ import CookieConsent from "react-cookie-consent";
 import Link from "next/link";
 import { Link as Scroll } from "react-scroll";
 import EmailIcon from "@mui/icons-material/Email";
+import HelpCenterIcon from "@mui/icons-material/HelpCenter";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import { useDispatch } from "react-redux";
 import { fetchMessages } from "@/redux/reducers/contact";
+import Nav from "@/components/Nav/Nav";
 // Styles...
 const CardBox = styled(Box)`
   display: flex;
@@ -148,36 +152,40 @@ const Index = () => {
 
   return (
     <HomeContainer>
-      <Banner {...content} />
+      <section id="top">
+        <Banner {...content} />
+      </section>
       <Menu />
-      <GridContainer>
-        <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
-          <Typography variant="h5" color="primary" align="center">
-            TOP CANDIDATES
-          </Typography>
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            align="center"
-            m={2}
-          >
-            Check out the most relevant profiles to match your need.
-          </Typography>
-          <EmojiEventsIcon color="warning" fontSize="large" />
-        </Box>
-        {visibleCards.map((card) => (
-          <Grid item xs={12} sm={6} md={4} key={card.id}>
-            <CardBox p={5} mb={5}>
-              <CardUser
-                id={card.id}
-                name={card.name}
-                title={card.title}
-                subheader={card.subheader}
-              />
-            </CardBox>
-          </Grid>
-        ))}
-      </GridContainer>
+      <section id="candidates">
+        <GridContainer>
+          <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
+            <Typography variant="h5" color="primary" align="center">
+              TOP CANDIDATES
+            </Typography>
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              align="center"
+              m={2}
+            >
+              Check out the most relevant profiles to match your need.
+            </Typography>
+            <EmojiEventsIcon color="warning" fontSize="large" />
+          </Box>
+          {visibleCards.map((card) => (
+            <Grid item xs={12} sm={6} md={4} key={card.id}>
+              <CardBox p={5} mb={5}>
+                <CardUser
+                  id={card.id}
+                  name={card.name}
+                  title={card.title}
+                  subheader={card.subheader}
+                />
+              </CardBox>
+            </Grid>
+          ))}
+        </GridContainer>
+      </section>
 
       <PaginationContainer>
         <Button
@@ -196,7 +204,9 @@ const Index = () => {
           <KeyboardDoubleArrowRightIcon />
         </Button>
       </PaginationContainer>
-      <Banner {...process} />
+      <section id="how">
+        <Banner {...process} />
+      </section>
       <LineTime />
       <section id="contact">
         <ContactForm />
@@ -235,23 +245,7 @@ const Index = () => {
           </Link>
         </div>
       </CookieConsent>
-
-      <Box
-        position="fixed"
-        left="5px"
-        zIndex={1000}
-        transform="translate(-50%, 0)"
-      >
-        <Scroll to="contact">
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ borderRadius: "180px" }}
-          >
-            <EmailIcon />
-          </Button>
-        </Scroll>
-      </Box>
+      <Nav />
     </HomeContainer>
   );
 };
