@@ -141,7 +141,7 @@ const Index = () => {
   const endIndex = startIndex + itemsPerPage;
   const visibleCards = cardData.slice(startIndex, endIndex);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(fetchMessages());
   }, []);
@@ -221,7 +221,7 @@ const Index = () => {
           background: "#FFF",
           color: "#00AAEF",
           fontSize: "14px",
-          borderRadius: "4px",
+          borderRadius: "180px",
           padding: "0.5rem 1rem",
           fontWeight: "bold",
           marginTop: "0.5rem",
@@ -243,7 +243,11 @@ const Index = () => {
         transform="translate(-50%, 0)"
       >
         <Scroll to="contact">
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ borderRadius: "180px" }}
+          >
             <EmailIcon />
           </Button>
         </Scroll>

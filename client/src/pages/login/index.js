@@ -28,9 +28,9 @@ const FormContainer = styled(Container)`
 `;
 
 const Form = styled("form")`
-  padding: 20px;
+  padding: 30px;
   border: 1px solid rgba(150, 150, 150, 0.5);
-  border-radius: 5px;
+  border-radius: 20px;
   box-shadow: 5px 5px 5px rgb(220, 220, 220);
 `;
 
@@ -146,6 +146,7 @@ const Login = () => {
             </IconContainer>
             <Stack spacing={2} width={1}>
               <TextField
+                variant="standard"
                 label="Email"
                 type="email"
                 {...register("email", {
@@ -160,6 +161,7 @@ const Login = () => {
               />
               <TextField
                 label="Password"
+                variant="standard"
                 type="password"
                 {...register("password", {
                   required: "Password is required",
@@ -176,6 +178,7 @@ const Login = () => {
                 color="primary"
                 type="submit"
                 endIcon={<LoginOutlinedIcon />}
+                style={{borderRadius: "180px"}}
               >
                 Login
               </Button>

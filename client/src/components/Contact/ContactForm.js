@@ -17,7 +17,7 @@ const FormContainer = styled(Container)`
   padding: 1rem;
   width: auto;
   border: 1px solid rgba(150, 150, 150, 0.5);
-  border-radius: 5px;
+  border-radius: 20px;
   box-shadow: 5px 5px 5px rgb(220, 220, 220);
 `;
 
@@ -76,8 +76,6 @@ const ContactForm = () => {
     }
   };
 
-
-
   return (
     <motion.div
       variants={fadeIn("up", 0.3)}
@@ -106,17 +104,18 @@ const ContactForm = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
+                    variant="standard"
                     label="Name"
                     type="text"
                     {...register("name", { required: "Name is required" })}
                     error={!!errors.name}
                     helperText={errors.name?.message}
-                    variant="outlined"
                     fullWidth
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    variant="standard"
                     label="Email"
                     {...register("email", {
                       required: "Email is required",
@@ -128,12 +127,12 @@ const ContactForm = () => {
                     error={!!errors.email}
                     helperText={errors.email?.message}
                     type="email"
-                    variant="outlined"
                     fullWidth
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    variant="standard"
                     label="Message"
                     type="text"
                     {...register("message", {
@@ -142,7 +141,6 @@ const ContactForm = () => {
                     error={!!errors.message}
                     helperText={errors.message?.message}
                     rows={4}
-                    variant="outlined"
                     fullWidth
                   />
                 </Grid>
@@ -152,6 +150,7 @@ const ContactForm = () => {
                     variant="contained"
                     color="primary"
                     endIcon={<ForwardToInboxIcon />}
+                    style={{ borderRadius: "180px" }}
                   >
                     Send
                   </Button>

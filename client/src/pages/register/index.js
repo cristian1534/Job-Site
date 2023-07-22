@@ -27,7 +27,7 @@ const FormContainer = styled(Container)`
 `;
 
 const Form = styled("form")`
-  padding: 20px;
+  padding: 30px;
   border: 1px solid rgba(150, 150, 150, 0.5);
   border-radius: 5px;
   box-shadow: 5px 5px 5px rgb(220, 220, 220);
@@ -127,18 +127,18 @@ const Register = () => {
               align="center"
               style={{ color: "#1976d2" }}
             >
-               <TypeAnimation
-            sequence={["WELCOME TO WORK WISE", 2000]}
-            speed={30}
-            key={animationTrigger}
-          />
-          
+              <TypeAnimation
+                sequence={["WELCOME TO WORK WISE", 2000]}
+                speed={30}
+                key={animationTrigger}
+              />
             </GreyTypography>
             <IconContainer>
               <CustomWorkIcon />
             </IconContainer>
             <Stack spacing={2} width={1}>
               <TextField
+                variant="standard"
                 label="Name"
                 type="text"
                 {...register("name", { required: "Name is required" })}
@@ -146,6 +146,7 @@ const Register = () => {
                 helperText={errors.name?.message}
               />
               <TextField
+                variant="standard"
                 label="Email"
                 type="email"
                 {...register("email", {
@@ -159,6 +160,7 @@ const Register = () => {
                 helperText={errors.email?.message}
               />
               <TextField
+                variant="standard"
                 label="Password"
                 type="password"
                 {...register("password", {
@@ -176,6 +178,7 @@ const Register = () => {
                 color="primary"
                 type="submit"
                 endIcon={<LoginOutlinedIcon />}
+                style={{ borderRadius: "180px" }}
               >
                 Register
               </Button>
