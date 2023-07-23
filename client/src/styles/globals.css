@@ -30,3 +30,7 @@ body.dark-mode label.MuiInputLabel-root {
 body.dark-mode span.MuiFormHelperText-root {
   color: #fff;
 }
+
+.MuiTypography-root {
+  font-family: "Sansita", sans-serif;
+}

@@ -16,9 +16,6 @@ const FormContainer = styled(Container)`
   justify-content: center;
   padding: 1rem;
   width: auto;
-  border: 1px solid rgba(150, 150, 150, 0.5);
-  border-radius: 20px;
-  box-shadow: 5px 5px 5px rgb(220, 220, 220);
 `;
 
 const IconContainer = styled("div")`

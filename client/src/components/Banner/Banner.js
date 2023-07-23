@@ -39,6 +39,7 @@ const Banner = (props) => {
 
   return (
     <Container>
+       <Divider light />
       <BoxContainer>
         <Typography variant="h4" color="primary" align="center" mb={3}>
           <TypeAnimation

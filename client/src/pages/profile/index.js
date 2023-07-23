@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
-import { Typography, styled, Avatar } from "@mui/material";
+import { Typography, styled, Avatar, Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
@@ -11,7 +11,7 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import { useForm } from "react-hook-form";
 import { Select, MenuItem } from "@mui/material";
-import { db } from "@/database/config";
+import { db, firebaseApp, storage } from "@/database/config";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -38,9 +38,6 @@ const FormContainer = styled(Container)`
 
 const Form = styled("form")`
   padding: 30px;
-  border: 1px solid rgba(150, 150, 150, 0.5);
-  border-radius: 30px;
-  box-shadow: 5px 5px 5px rgb(220, 220, 220);
 `;
 
 const ProfileAvatar = styled(Avatar)`
@@ -56,6 +53,8 @@ const IconContainer = styled("div")`
 `;
 
 const ProfileDetails = () => {
+  const [url, setUrl] = useState("");
+  const [category, setCategory] = useState("Options");
   const router = useRouter();
   const form = useForm({
     name: "",
@@ -70,6 +69,7 @@ const ProfileDetails = () => {
     experienceTwoDate: null,
     photo: "",
   });
+
   const formRef = useRef();
 
   const notify = (message, type) => {
@@ -84,35 +84,48 @@ const ProfileDetails = () => {
         toast(message);
     }
   };
+
   const { register, handleSubmit, formState } = form;
   const { errors } = formState;
 
   const onSubmit = async (data) => {
     try {
-      await db
-        .collection("profiles")
-        .add({
-          name: data.name,
-          email: data.email,
-          telephone: data.telephone,
-          address: data.address,
-          skills: data.skills,
-          category: data.category,
-          experienceOne: data.experienceOne,
-          experienceOneDate: data.experienceOneDate,
-          experienceTwo: data.experienceTwo,
-          experienceTwoDate: data.experienceTwoDate,
-          photo: "",
+      const file = data.photo[0];
+      const storageRef = firebaseApp.storage().ref();
+      const fileRef = storageRef.child(file.name);
+  
+      await fileRef
+        .put(file)
+        .then(async () => {
+          const url = await fileRef.getDownloadURL();
+          setUrl(url);
         })
-        .then(() => {
-          notify("Profile created successfully", "success");
+        .catch((err) => {
+          return err.message;
         });
+  
+      await db.collection("profiles").add({
+        name: data.name,
+        email: data.email,
+        telephone: data.telephone,
+        address: data.address,
+        skills: data.skills,
+        category: category,
+        experienceOne: data.experienceOne,
+        experienceOneDate: data.experienceOneDate,
+        experienceTwo: data.experienceTwo,
+        experienceTwoDate: data.experienceTwoDate,
+        photo: url,
+      });
+  
+      notify("Profile created successfully", "success");
       formRef.current.reset();
     } catch (err) {
       console.log(err.message);
       notify("Could not create Profile", "error");
     }
   };
+  
 
   return (
     <FormContainer
@@ -200,13 +213,13 @@ const ProfileDetails = () => {
             <InputLabel id="select-area-label">Select Area</InputLabel>
             <Select
               id="select-area-label"
-              label="Category"
-              value={form.category}
+              value={category}
               {...register("category", { required: "Category is required" })}
               error={!!errors.category}
               helperText={errors.category?.message}
               variant="standard"
               fullWidth
+              onChange={(e) => setCategory(e.target.value)}
             >
               <MenuItem value="Technology">Technology</MenuItem>
               <MenuItem value="Administration">Administration</MenuItem>
@@ -272,7 +285,7 @@ const ProfileDetails = () => {
               fullWidth
             />
           </Grid>
-          <Grid item xs={12} display="flex" justifyContent="space-between">
+          <Grid item xs={12} display="flex" justifyContent="center">
             <Button
               variant="contained"
               color="primary"
@@ -281,28 +294,39 @@ const ProfileDetails = () => {
               style={{ borderRadius: "180px" }}
             >
               Photo
-              <input type="file" name="photo" style={{ display: "none" }} />
+              <input
+                type="file"
+                name="photo"
+                style={{ display: "none" }}
+                accept="image/*"
+                {...register("photo")}
+              />
             </Button>
           </Grid>
           <Grid item xs={12} display="flex" justifyContent="space-between">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => router.push("/")}
-              startIcon={<ReplyAllIcon />}
-              style={{ borderRadius: "180px" }}
-            >
-              Back
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              endIcon={<LoginOutlinedIcon />}
-              style={{ borderRadius: "180px" }}
-            >
-              Send
-            </Button>
+            <Box>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => router.push("/")}
+                startIcon={<ReplyAllIcon />}
+                style={{ borderRadius: "180px" }}
+              >
+                Back
+              </Button>
+            </Box>
+            <Box flexGrow={1} />
+            <Box>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                endIcon={<LoginOutlinedIcon />}
+                style={{ borderRadius: "180px" }}
+              >
+                Send
+              </Button>
+            </Box>
             <ToastContainer
               position="top-center"
               autoClose={3000}

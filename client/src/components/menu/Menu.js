@@ -23,7 +23,7 @@ const Menu = () => {
           <Typography variant="h5" color="primary" mr={2}>
             SELECT AREA
           </Typography>
-          <Select value={value} onChange={handleChange}>
+          <Select value={value} onChange={handleChange} variant="standard">
             <MenuItem value="Technology">Technology</MenuItem>
             <MenuItem value="Administration">Administration</MenuItem>
             <MenuItem value="Education">Education</MenuItem>

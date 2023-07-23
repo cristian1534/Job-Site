@@ -5,7 +5,7 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Divider } from "@mui/material";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/variants";
 
@@ -71,7 +71,7 @@ const LineTime = () => {
               <Typography variant="h5" component="span" color="primary" p={3}>
                 GET HIRED
               </Typography>
-              <Typography variant="body1" color="textSecondary" mt={2}>
+              <Typography variant="body1" color="textSecondary" mt={2} mb={2}>
                 Congratulations! You've reached the goal and we will not get any
                 fee or payment from your side if you get hired.
               </Typography>
@@ -79,6 +79,7 @@ const LineTime = () => {
           </motion.div>
         </TimelineItem>
       </Timeline>
+      <Divider light />
     </Box>
   );
 };

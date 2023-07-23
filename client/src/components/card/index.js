@@ -31,7 +31,8 @@ const ProfileAvatar = styled(Avatar)`
 
 const CustomCard = styled(Card)`
   border: 1px solid rgba(150, 150, 150, 0.5);
-  border-radius: 5px;
+  border-radius: 30px;
+  padding: 1rem;
   box-shadow: 5px 5px 5px rgb(220, 220, 220);
   width: 250px;
   height: 300px;
@@ -74,9 +75,10 @@ const CardUser = ({ id, name, title, subheader }) => {
               variant="contained"
               size="small"
               onClick={() => router.push(`/profile/${id}`)}
+              style={{ borderRadius: "50px" }}
             >
               <ManageSearchIcon />
-              PROFILE
+              More
             </Button>
           </Box>
         </CardContent>

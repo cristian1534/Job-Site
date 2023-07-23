@@ -11,14 +11,10 @@ import ContactForm from "@/components/Contact/ContactForm";
 import LineTime from "@/components/LineTime/LineTime";
 import CookieConsent from "react-cookie-consent";
 import Link from "next/link";
-import { Link as Scroll } from "react-scroll";
-import EmailIcon from "@mui/icons-material/Email";
-import HelpCenterIcon from "@mui/icons-material/HelpCenter";
-import HowToRegIcon from "@mui/icons-material/HowToReg";
-import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import { useDispatch } from "react-redux";
 import { fetchMessages } from "@/redux/reducers/contact";
 import Nav from "@/components/Nav/Nav";
+
 // Styles...
 const CardBox = styled(Box)`
   display: flex;
@@ -47,9 +43,6 @@ const GridContainer = styled(Grid)`
   justify-content: center;
   margin-top: 2rem;
   padding: 2rem;
-  border: 1px solid rgba(150, 150, 150, 0.5);
-  border-radius: 5px;
-  box-shadow: 5px 5px 5px rgb(220, 220, 220);
 
   @media (max-width: 768px) {
     flex-direction: column;
