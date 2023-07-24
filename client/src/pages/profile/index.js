@@ -53,7 +53,6 @@ const IconContainer = styled("div")`
 `;
 
 const ProfileDetails = () => {
-  const [url, setUrl] = useState("");
   const [category, setCategory] = useState("Options");
   const router = useRouter();
   const form = useForm({
@@ -92,18 +91,10 @@ const ProfileDetails = () => {
     try {
       const file = data.photo[0];
       const storageRef = firebaseApp.storage().ref();
-      const fileRef = storageRef.child(file.name);
-  
-      await fileRef
-        .put(file)
-        .then(async () => {
-          const url = await fileRef.getDownloadURL();
-          setUrl(url);
-        })
-        .catch((err) => {
-          return err.message;
-        });
-  
+      const fileRef = storageRef.child(`profile_photos/${file.name}`);
+      const uploadTaskSnapshot = await fileRef.put(file);
+      const url = await uploadTaskSnapshot.ref.getDownloadURL();
+
       await db.collection("profiles").add({
         name: data.name,
         email: data.email,
@@ -117,22 +108,18 @@ const ProfileDetails = () => {
         experienceTwoDate: data.experienceTwoDate,
         photo: url,
       });
-  
-      notify("Profile created successfully", "success");
+
       formRef.current.reset();
+      notify("Profile created successfully", "success");
     } catch (err) {
       console.log(err.message);
       notify("Could not create Profile", "error");
     }
   };
-  
 
   return (
-    <FormContainer
-      style={{ marginTop: "1rem", marginBottom: "1rem" }}
-      ref={formRef}
-    >
-      <Form noValidate onSubmit={handleSubmit(onSubmit)}>
+    <FormContainer style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+      <Form noValidate onSubmit={handleSubmit(onSubmit)} ref={formRef}>
         <Typography variant="h4" textAlign="center" color="textSecondary">
           WORK WISE
         </Typography>
