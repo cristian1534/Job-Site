@@ -12,15 +12,23 @@ import { TypeAnimation } from "react-type-animation";
 
 // Styles...
 const FormContainer = styled(Container)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
 
-  @media (min-width: 768px) {
-    width: calc(50% - 5rem);
-    margin: 0 auto;
+@media (min-width: 768px) {
+  width: calc(50% - 5rem);
+  margin: 0 auto;
+  padding-top: 0;
+}
+
+@media (max-width: 767px) {
+  button {
+    width: auto;
+    height: 50px;
+    padding: 1rem;
   }
+}
 `;
 
 const Form = styled("form")`
@@ -56,11 +64,11 @@ const ProfileDetails = ({ profile }) => {
   }, []);
 
   return (
-    <FormContainer>
+    <FormContainer style={{ marginTop: "1rem", marginBottom: "1rem" }}>
       <Form noValidate>
-        <Typography variant="h4" textAlign="center" color="primary" mt={5}>
+        <Typography variant="h4" textAlign="center" color="primary">
          <TypeAnimation
-                sequence={["WORK WISE CANDIDATE   ", 2000]}
+                sequence={["TOP CANDIDATE   ", 2000]}
                 speed={30}
                 key={animationTrigger}
               />

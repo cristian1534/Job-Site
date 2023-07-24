@@ -145,7 +145,7 @@ const ProfileDetails = () => {
   return (
     <FormContainer style={{ marginTop: "1rem", marginBottom: "1rem" }}>
       <Form noValidate onSubmit={handleSubmit(onSubmit)} ref={formRef}>
-        <Typography variant="h4" textAlign="center" color="textSecondary">
+        <Typography variant="h4" textAlign="center" color="primary">
           <TypeAnimation
             sequence={["WORK WISE", 2000]}
             speed={30}
