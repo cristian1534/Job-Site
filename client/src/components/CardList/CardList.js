@@ -12,6 +12,7 @@ const CardList = ({ cardData }) => {
     gap: 1rem;
     width: 100%;
     padding: 1rem;
+    justify-content: center; /* Add this line to center the items horizontally */
 
     @media (min-width: 768px) {
       margin-top: 5rem;
