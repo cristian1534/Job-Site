@@ -6,24 +6,6 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 const CardList = ({ cardData }) => {
-  const CardBox = styled(Box)`
-    display: flex;
-    margin-top: 2rem;
-    gap: 1rem;
-    width: 100%;
-    padding: 1rem;
-    justify-content: center; /* Add this line to center the items horizontally */
-
-    @media (min-width: 768px) {
-      margin-top: 5rem;
-      padding: 2rem;
-    }
-
-    @media (max-width: 767px) {
-      flex-direction: column;
-    }
-  `;
-
   const PaginationContainer = styled(Box)`
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -43,7 +25,7 @@ const CardList = ({ cardData }) => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
+    <Box display="flex" flexDirection="column" justifyContent="center">
       <Box
         display="flex"
         flexDirection="column"
@@ -60,7 +42,13 @@ const CardList = ({ cardData }) => {
         <EmojiEventsIcon color="warning" fontSize="large" />
       </Box>
 
-      <CardBox p={5} mb={5}>
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="center"
+        mb={5}
+        p={5}
+      >
         {visibleCards.map((card) => (
           <CardUser
             key={card.id}
@@ -71,7 +59,7 @@ const CardList = ({ cardData }) => {
             subheader={card.category}
           />
         ))}
-      </CardBox>
+      </Box>
 
       <PaginationContainer>
         <Button
