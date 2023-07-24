@@ -43,9 +43,9 @@ const CustomCardHeader = styled(CardHeader)`
   margin-top: 15px;
 `;
 
-const CardUser = ({ id, name, title, subheader }) => {
+const CardUser = ({ id, name, title, subheader, photo }) => {
   const router = useRouter();
-
+console.log("Este: ", id)
   return (
     <motion.div
       variants={fadeIn("down", 0.3)}
@@ -64,7 +64,7 @@ const CardUser = ({ id, name, title, subheader }) => {
           subheader={subheader}
         />
         <IconContainer>
-          <ProfileAvatar src="" alt="" />
+          <ProfileAvatar src={photo} alt="avatar" />
         </IconContainer>
         <CardContent>
           <Box display="flex" flexDirection="column" alignItems="center">

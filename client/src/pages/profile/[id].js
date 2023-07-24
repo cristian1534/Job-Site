@@ -1,20 +1,26 @@
-import { useRouter } from "next/router";
 import ProfileDetails from "@/components/ProfileDetails/ProfileDetails";
+import { fetchProfileById } from "@/redux/reducers/profileById";
+import store from "@/redux/store";
 
-
-const ProfilePage = () => {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const profile = {
-    name: "Pedro Gomez",
-    email: "pedro@gmail.com",
-    telephone: "1234567890",
-    address: "123 Montevideo Street",
-    profileImage: "https://cdn-icons-png.flaticon.com/512/219/219983.png",
-  };
-
+const ProfilePage = ({ profile }) => {
   return <ProfileDetails profile={profile} />;
 };
 
 export default ProfilePage;
+
+export async function getServerSideProps({ params }) {
+  const { id } = params;
+
+  try {
+    const profile = await store.dispatch(fetchProfileById(id));
+    return {
+      props: {
+        profile: profile.payload,
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
+}

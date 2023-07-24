@@ -15,7 +15,7 @@ const CustomModal = ({ title, content, textButton }) => {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleOpen} endIcon={<SendIcon />}>
+      <Button variant="contained" onClick={handleOpen} endIcon={<SendIcon />} style={{ borderRadius: "180px"}}>
         Hire
       </Button>
       <Modal open={open} onClose={handleClose}>
@@ -42,7 +42,7 @@ const CustomModal = ({ title, content, textButton }) => {
             variant="h5"
             component="h2"
             gutterBottom
-            color="textSecondary"
+            color="primary"
           >
             {title}
           </Typography>

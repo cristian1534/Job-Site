@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
+import { userContext } from "@/components/user/User";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
@@ -14,6 +15,7 @@ import { Select, MenuItem } from "@mui/material";
 import { db, firebaseApp, storage } from "@/database/config";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { TypeAnimation } from "react-type-animation";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -38,6 +40,9 @@ const FormContainer = styled(Container)`
 
 const Form = styled("form")`
   padding: 30px;
+  border: 1px solid rgba(150, 150, 150, 0.5);
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px rgb(220, 220, 220);
 `;
 
 const ProfileAvatar = styled(Avatar)`
@@ -54,6 +59,7 @@ const IconContainer = styled("div")`
 
 const ProfileDetails = () => {
   const [category, setCategory] = useState("Options");
+  const { currentUser } = useContext(userContext);
   const router = useRouter();
   const form = useForm({
     name: "",
@@ -68,6 +74,16 @@ const ProfileDetails = () => {
     experienceTwoDate: null,
     photo: "",
   });
+
+  const [animationTrigger, setAnimationTrigger] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimationTrigger((prevTrigger) => prevTrigger + 1);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const formRef = useRef();
 
@@ -95,6 +111,12 @@ const ProfileDetails = () => {
       const uploadTaskSnapshot = await fileRef.put(file);
       const url = await uploadTaskSnapshot.ref.getDownloadURL();
 
+      if (currentUser) {
+        await currentUser.updateProfile({
+          photoURL: url,
+        });
+      }
+
       await db.collection("profiles").add({
         name: data.name,
         email: data.email,
@@ -111,6 +133,9 @@ const ProfileDetails = () => {
 
       formRef.current.reset();
       notify("Profile created successfully", "success");
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
     } catch (err) {
       console.log(err.message);
       notify("Could not create Profile", "error");
@@ -121,7 +146,11 @@ const ProfileDetails = () => {
     <FormContainer style={{ marginTop: "1rem", marginBottom: "1rem" }}>
       <Form noValidate onSubmit={handleSubmit(onSubmit)} ref={formRef}>
         <Typography variant="h4" textAlign="center" color="textSecondary">
-          WORK WISE
+          <TypeAnimation
+            sequence={["WORK WISE", 2000]}
+            speed={30}
+            key={animationTrigger}
+          />
         </Typography>
         <Typography
           variant="body2"

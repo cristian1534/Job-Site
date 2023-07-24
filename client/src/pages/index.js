@@ -1,33 +1,19 @@
 import React, { useState, useEffect } from "react";
-import CardUser from "@/components/card";
-import { Container, Grid, Box, Button, Typography } from "@mui/material";
+import { Container, Grid, Box, Button, Card } from "@mui/material";
 import { styled } from "@mui/material";
 import Menu from "../components/menu/Menu";
 import Banner from "@/components/Banner/Banner";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import ContactForm from "@/components/Contact/ContactForm";
 import LineTime from "@/components/LineTime/LineTime";
 import CookieConsent from "react-cookie-consent";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { fetchMessages } from "@/redux/reducers/contact";
 import Nav from "@/components/Nav/Nav";
+import CardList from "@/components/CardList/CardList";
+import { fetchProfiles } from "@/redux/reducers/profile";
+import store from "@/redux/store";
 
 // Styles...
-const CardBox = styled(Box)`
-  display: flex;
-  margin-top: 2rem;
-  gap: 1rem;
-  width: 100%;
-  padding: 1rem;
-
-  @media (min-width: 768px) {
-    margin-top: 5rem;
-    padding: 2rem;
-  }
-`;
 
 const HomeContainer = styled(Container)`
   padding: 2rem;
@@ -37,26 +23,7 @@ const HomeContainer = styled(Container)`
   min-height: 100vh;
 `;
 
-const GridContainer = styled(Grid)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 2rem;
-  padding: 2rem;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
-
-const PaginationContainer = styled(Box)`
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: center;
-`;
-
-const Index = () => {
+const Index = ({ cardData }) => {
   const content = {
     title: "We're excited to have you here!",
     subTitle:
@@ -73,74 +40,10 @@ const Index = () => {
     redirection: false,
   };
 
-  const cardData = [
-    {
-      id: 1,
-      name: "Pedro Gomez",
-      title: "Gerente de Ventas",
-      subheader: "Ventas",
-    },
-    {
-      id: 2,
-      name: "Oscar Gutierrez",
-      title: "Analista Financiero",
-      subheader: "Finanzas",
-    },
-    {
-      id: 3,
-      name: "Jose Torres",
-      title: "Ingeniero de Software",
-      subheader: "Tecnología",
-    },
-    {
-      id: 4,
-      name: "Ivan Perez",
-      title: "Contador",
-      subheader: "Contabilidad",
-    },
-    {
-      id: 5,
-      name: "Burry Tunez",
-      title: "Diseñador Gráfico",
-      subheader: "Diseño",
-    },
-    { id: 6, name: "Rambo Rey", title: "Médico", subheader: "Salud" },
-    { id: 7, name: "Ignacio Maya", title: "Abogado", subheader: "Legal" },
-    {
-      id: 8,
-      name: "Luciano Piriz",
-      title: "Marketing Manager",
-      subheader: "Marketing",
-    },
-    {
-      id: 9,
-      name: "Antonio Aguilar",
-      title: "Recursos Humanos",
-      subheader: "RRHH",
-    },
-    {
-      id: 10,
-      name: "Roberto Cadiz",
-      title: "Consultor de Negocios",
-      subheader: "Consultoría",
-    },
-  ];
-
-  const itemsPerPage = 2;
-  const totalPages = Math.ceil(cardData.length / itemsPerPage);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const visibleCards = cardData.slice(startIndex, endIndex);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchMessages());
+    dispatch(fetchProfiles());
   }, []);
 
   return (
@@ -150,53 +53,9 @@ const Index = () => {
       </section>
       <Menu />
       <section id="candidates">
-        <GridContainer>
-          <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
-            <Typography variant="h5" color="primary" align="center">
-              TOP CANDIDATES
-            </Typography>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              align="center"
-              m={2}
-            >
-              Check out the most relevant profiles to match your need.
-            </Typography>
-            <EmojiEventsIcon color="warning" fontSize="large" />
-          </Box>
-          {visibleCards.map((card) => (
-            <Grid item xs={12} sm={6} md={4} key={card.id}>
-              <CardBox p={5} mb={5}>
-                <CardUser
-                  id={card.id}
-                  name={card.name}
-                  title={card.title}
-                  subheader={card.subheader}
-                />
-              </CardBox>
-            </Grid>
-          ))}
-        </GridContainer>
+        <CardList cardData={cardData}/>
       </section>
 
-      <PaginationContainer>
-        <Button
-          variant="outlined"
-          disabled={currentPage === 1}
-          onClick={() => handlePageChange(currentPage - 1)}
-          style={{ marginRight: "10px" }}
-        >
-          <KeyboardDoubleArrowLeftIcon />
-        </Button>
-        <Button
-          variant="outlined"
-          disabled={currentPage === totalPages}
-          onClick={() => handlePageChange(currentPage + 1)}
-        >
-          <KeyboardDoubleArrowRightIcon />
-        </Button>
-      </PaginationContainer>
       <section id="how">
         <Banner {...process} />
       </section>
@@ -244,3 +103,16 @@ const Index = () => {
 };
 
 export default Index;
+
+
+export async function getServerSideProps() {
+  await store.dispatch(fetchProfiles());
+
+  const cardData = store.getState().profile.profiles;
+
+  return {
+    props: {
+      cardData,
+    },
+  };
+}
