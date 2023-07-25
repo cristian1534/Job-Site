@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { Typography, styled, Avatar, Box } from "@mui/material";
@@ -8,6 +8,13 @@ import { useRouter } from "next/router";
 import CustomModal from "../modal/Modal";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 import { TypeAnimation } from "react-type-animation";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { userContext } from "../user/User";
+import { useDispatch } from "react-redux";
+import { deleteProfileById } from "@/redux/reducers/profileById";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -64,6 +71,21 @@ const ProfileDetails = ({ profile }) => {
   } = profile;
   const router = useRouter();
   const [animationTrigger, setAnimationTrigger] = useState(0);
+  const { currentUser } = useContext(userContext);
+  const dispatch = useDispatch();
+  const { id } = router.query;
+  const notify = (message, type) => {
+    switch (type) {
+      case "success":
+        toast.success(message);
+        break;
+      case "error":
+        toast.error(message);
+        break;
+      default:
+        toast(message);
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -72,6 +94,18 @@ const ProfileDetails = ({ profile }) => {
 
     return () => clearInterval(interval);
   }, []);
+
+  const handleDeleteProfile = async (id) => {
+    try {
+      await dispatch(deleteProfileById(id));
+      notify("Profile has been deleted", "success");
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
+    } catch (err) {
+      notify("Profile could not be deleted", "error");
+    }
+  };
 
   return (
     <FormContainer style={{ marginTop: "1rem", marginBottom: "1rem" }}>
@@ -152,7 +186,7 @@ const ProfileDetails = ({ profile }) => {
           </Grid>
           <Grid item xs={12}>
             <TextField
-              label="experienceOne"
+              label="Last Job Experience"
               type="text"
               value={experienceOne}
               disabled
@@ -163,7 +197,7 @@ const ProfileDetails = ({ profile }) => {
           </Grid>
           <Grid item xs={12}>
             <TextField
-              label="experienceOneDate"
+              label="Last Job Experience Date"
               type="text"
               value={experienceOneDate}
               disabled
@@ -174,7 +208,7 @@ const ProfileDetails = ({ profile }) => {
           </Grid>
           <Grid item xs={12}>
             <TextField
-              label="experienceTwo"
+              label="Job Experience"
               type="text"
               value={experienceTwo}
               disabled
@@ -185,7 +219,7 @@ const ProfileDetails = ({ profile }) => {
           </Grid>
           <Grid item xs={12}>
             <TextField
-              label="experienceTwoDate"
+              label="Job Experience Date"
               type="text"
               value={experienceTwoDate}
               disabled
@@ -218,6 +252,43 @@ const ProfileDetails = ({ profile }) => {
               />
             </Box>
           </Grid>
+          {currentUser && currentUser.email === email && (
+            <Grid
+              item
+              xs={12}
+              container
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Button
+                style={{ borderRadius: "180px" }}
+                variant="outlined"
+                color="success"
+              >
+                <ModeEditIcon style={{ color: "green" }} />
+              </Button>
+              <Box ml={2}>
+                <Button
+                  style={{ borderRadius: "180px" }}
+                  variant="outlined"
+                  color="error"
+                  onClick={() => handleDeleteProfile(id)}
+                >
+                  <DeleteIcon style={{ color: "red" }} />
+                </Button>
+              </Box>
+            </Grid>
+          )}
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            pauseOnHover={false}
+            transition={Slide}
+            hideProgressBar={false}
+            closeOnClick={true}
+            limit={5}
+            theme="light"
+          />
         </Grid>
       </Form>
     </FormContainer>

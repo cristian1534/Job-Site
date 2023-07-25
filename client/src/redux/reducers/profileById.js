@@ -14,6 +14,19 @@ export const fetchProfileById = createAsyncThunk(
   }
 );
 
+export const deleteProfileById = createAsyncThunk(
+  "profile/deleteProfileById",
+  async (profileId) => {
+    const profileRef = db.collection("profiles").doc(profileId);
+    const snapshot = await profileRef.get();
+    if (snapshot.exists) {
+      await profileRef.delete();
+      return profileId;
+    }
+    throw new Error("Profile not found");
+  }
+);
+
 const profileSlice = createSlice({
   name: "profileById",
   initialState: {
@@ -34,6 +47,20 @@ const profileSlice = createSlice({
         state.currentProfile = action.payload;
       })
       .addCase(fetchProfileById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteProfileById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteProfileById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profiles = state.profiles.filter(
+          (profile) => profile.id !== action.payload
+        );
+      })
+      .addCase(deleteProfileById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

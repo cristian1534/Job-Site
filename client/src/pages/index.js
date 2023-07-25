@@ -7,11 +7,12 @@ import ContactForm from "@/components/Contact/ContactForm";
 import LineTime from "@/components/LineTime/LineTime";
 import CookieConsent from "react-cookie-consent";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Nav from "@/components/Nav/Nav";
 import CardList from "@/components/CardList/CardList";
 import { fetchProfiles } from "@/redux/reducers/profile";
 import store from "@/redux/store";
+import Loader from "../components/Loader/Loader";
 
 // Styles...
 
@@ -41,6 +42,7 @@ const Index = ({ cardData }) => {
   };
 
   const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.profile);
 
   useEffect(() => {
     dispatch(fetchProfiles());
@@ -48,12 +50,13 @@ const Index = ({ cardData }) => {
 
   return (
     <HomeContainer>
+      {loading && <Loader />}
       <section id="top">
         <Banner {...content} />
       </section>
       <Menu />
       <section id="candidates">
-        <CardList cardData={cardData}/>
+        <CardList cardData={cardData} />
       </section>
 
       <section id="how">
@@ -103,7 +106,6 @@ const Index = ({ cardData }) => {
 };
 
 export default Index;
-
 
 export async function getServerSideProps() {
   await store.dispatch(fetchProfiles());

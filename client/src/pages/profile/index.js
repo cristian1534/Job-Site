@@ -12,7 +12,7 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import { useForm } from "react-hook-form";
 import { Select, MenuItem } from "@mui/material";
-import { db, firebaseApp, storage } from "@/database/config";
+import { db, firebaseApp } from "@/database/config";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TypeAnimation } from "react-type-animation";
@@ -76,6 +76,7 @@ const ProfileDetails = () => {
   });
 
   const [animationTrigger, setAnimationTrigger] = useState(0);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -104,6 +105,8 @@ const ProfileDetails = () => {
   const { errors } = formState;
 
   const onSubmit = async (data) => {
+    if (isSubmit) return;
+    setIsSubmit(true);
     try {
       const file = data.photo[0];
       const storageRef = firebaseApp.storage().ref();
@@ -116,10 +119,9 @@ const ProfileDetails = () => {
           photoURL: url,
         });
       }
-
       await db.collection("profiles").add({
         name: data.name,
-        email: data.email,
+        email: currentUser.email,
         telephone: data.telephone,
         address: data.address,
         skills: data.skills,
@@ -139,6 +141,8 @@ const ProfileDetails = () => {
     } catch (err) {
       console.log(err.message);
       notify("Could not create Profile", "error");
+    } finally {
+      setIsSubmit(false);
     }
   };
 
@@ -179,15 +183,7 @@ const ProfileDetails = () => {
             <TextField
               label="Email"
               type="email"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                  message: "Give a valid email",
-                },
-              })}
-              error={!!errors.email}
-              helperText={errors.email?.message}
+              value={currentUser.email}
               variant="standard"
               fullWidth
             />
@@ -339,6 +335,7 @@ const ProfileDetails = () => {
                 type="submit"
                 endIcon={<LoginOutlinedIcon />}
                 style={{ borderRadius: "180px" }}
+                disabled={isSubmit}
               >
                 Send
               </Button>

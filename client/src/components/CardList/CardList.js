@@ -49,7 +49,13 @@ const CardList = ({ cardData }) => {
         justifyContent="center"
         mb={5}
         p={5}
-        style={{ gap: "20px" }} 
+        style={{ gap: "20px" }}
+        sx={{
+          "@media (max-width: 360px)": {
+            flexDirection: "column",
+            alignItems: "center",
+          },
+        }}
       >
         {visibleCards.map((card) => (
           <CardUser

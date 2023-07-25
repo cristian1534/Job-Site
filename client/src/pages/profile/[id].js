@@ -1,9 +1,17 @@
 import ProfileDetails from "@/components/ProfileDetails/ProfileDetails";
 import { fetchProfileById } from "@/redux/reducers/profileById";
 import store from "@/redux/store";
+import { useSelector } from "react-redux";
+import Loader from "../../components/Loader/Loader";
 
 const ProfilePage = ({ profile }) => {
-  return <ProfileDetails profile={profile} />;
+  const { loading } = useSelector((state) => state.profile);
+  return (
+    <div>
+      {loading && <Loader />}
+      <ProfileDetails profile={profile} />
+    </div>
+  );
 };
 
 export default ProfilePage;
