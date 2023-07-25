@@ -51,7 +51,7 @@ const CardList = ({ cardData }) => {
         p={5}
         style={{ gap: "20px" }}
         sx={{
-          "@media (max-width: 360px)": {
+          "@media (max-width: 412px)": {
             flexDirection: "column",
             alignItems: "center",
           },
