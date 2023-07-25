@@ -10,6 +10,14 @@ import { FirebaseAppProvider } from "reactfire";
 import { UserProvider } from "@/components/user/User";
 import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 import Loader from "../components/Loader/Loader";
+import { Pacifico } from "@next/font/google";
+
+const pacifico = Pacifico({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-pacifico",
+});
 
 export default function App({ Component, pageProps, router }) {
   const [darkMode, setDarkMode] = useState(false);
@@ -46,31 +54,33 @@ export default function App({ Component, pageProps, router }) {
   const isAuthRequiredPage = authRequired.includes(router.pathname);
 
   return (
-    <FirebaseAppProvider firebaseApp={firebaseApp}>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <UserProvider>
-          <Provider store={reduxStore}>
-            {authLoading ? (
-              <div>
-                <Loader />
-              </div>
-            ) : isAuthRequiredPage ? (
-              <PrivateRoute>
+    <div className={pacifico.variable}>
+      <FirebaseAppProvider firebaseApp={firebaseApp}>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          <UserProvider>
+            <Provider store={reduxStore}>
+              {authLoading ? (
+                <div>
+                  <Loader />
+                </div>
+              ) : isAuthRequiredPage ? (
+                <PrivateRoute>
+                  <Layout changeMode={changeMode}>
+                    <Component {...pageProps} />
+                  </Layout>
+                </PrivateRoute>
+              ) : isLoginPage || isRegisterPage ? (
+                <Component {...pageProps} />
+              ) : (
                 <Layout changeMode={changeMode}>
                   <Component {...pageProps} />
                 </Layout>
-              </PrivateRoute>
-            ) : isLoginPage || isRegisterPage ? (
-              <Component {...pageProps} />
-            ) : (
-              <Layout changeMode={changeMode}>
-                <Component {...pageProps} />
-              </Layout>
-            )}
-          </Provider>
-        </UserProvider>
-      </ThemeProvider>
-    </FirebaseAppProvider>
+              )}
+            </Provider>
+          </UserProvider>
+        </ThemeProvider>
+      </FirebaseAppProvider>
+    </div>
   );
 }

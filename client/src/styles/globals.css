@@ -1,8 +1,10 @@
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: "Sansita", sans-serif;
+  /* font-family: "Sansita", sans-serif; */
+  font-family: var(--font-pacifico);
 }
 
 html,
@@ -32,5 +34,5 @@ body.dark-mode span.MuiFormHelperText-root {
 }
 
 .MuiTypography-root {
-  font-family: "Sansita", sans-serif;
+  font-family: var(--font-pacifico);
 }
