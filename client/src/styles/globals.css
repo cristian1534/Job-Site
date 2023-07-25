@@ -1,4 +1,7 @@
-
+@font-face {
+  font-family: Sansita;
+  src: url("../../public/font/Sansita/Sansita-Italic.ttf");
+}
 
 html,
 body {

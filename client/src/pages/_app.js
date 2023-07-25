@@ -11,6 +11,9 @@ import { UserProvider } from "@/components/user/User";
 import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 import Loader from "../components/Loader/Loader";
 
+
+
+
 export default function App({ Component, pageProps, router }) {
   const [darkMode, setDarkMode] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
