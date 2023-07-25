@@ -10,14 +10,7 @@ import { FirebaseAppProvider } from "reactfire";
 import { UserProvider } from "@/components/user/User";
 import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 import Loader from "../components/Loader/Loader";
-import { Pacifico } from "@next/font/google";
 
-const pacifico = Pacifico({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-  variable: "--font-pacifico",
-});
 
 export default function App({ Component, pageProps, router }) {
   const [darkMode, setDarkMode] = useState(false);
@@ -54,7 +47,6 @@ export default function App({ Component, pageProps, router }) {
   const isAuthRequiredPage = authRequired.includes(router.pathname);
 
   return (
-    <div className={pacifico.variable}>
       <FirebaseAppProvider firebaseApp={firebaseApp}>
         <ThemeProvider theme={darkTheme}>
           <CssBaseline />
@@ -81,6 +73,5 @@ export default function App({ Component, pageProps, router }) {
           </UserProvider>
         </ThemeProvider>
       </FirebaseAppProvider>
-    </div>
   );
 }
