@@ -276,19 +276,19 @@ const ProfileDetails = ({ profile }) => {
                 >
                   <DeleteIcon style={{ color: "red" }} />
                 </Button>
+              <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                pauseOnHover={false}
+                transition={Slide}
+                hideProgressBar={false}
+                closeOnClick={true}
+                limit={5}
+                theme="light"
+              />
               </Box>
             </Grid>
           )}
-          <ToastContainer
-            position="top-center"
-            autoClose={3000}
-            pauseOnHover={false}
-            transition={Slide}
-            hideProgressBar={false}
-            closeOnClick={true}
-            limit={5}
-            theme="light"
-          />
         </Grid>
       </Form>
     </FormContainer>
