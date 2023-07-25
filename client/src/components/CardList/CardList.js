@@ -14,9 +14,10 @@ const CardList = ({ cardData }) => {
   `;
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
+  const itemsPerPage = 2;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  let endIndex = startIndex + itemsPerPage;
+  endIndex = Math.min(endIndex, cardData.length);
   const visibleCards = cardData.slice(startIndex, endIndex);
   const totalPages = Math.ceil(cardData.length / itemsPerPage);
 
@@ -48,6 +49,7 @@ const CardList = ({ cardData }) => {
         justifyContent="center"
         mb={5}
         p={5}
+        style={{ gap: "20px" }} 
       >
         {visibleCards.map((card) => (
           <CardUser
