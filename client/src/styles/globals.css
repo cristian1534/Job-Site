@@ -15,6 +15,9 @@ body {
   font-family: "Sansita", sans-serif;
 }
 
+:root {
+  --font-pacifico: "Pacifico", cursive;
+}
 
 body.dark-mode {
   color: #fff;
