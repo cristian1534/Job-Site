@@ -1,20 +1,16 @@
-@font-face {
-  font-family: Sansita;
-  src: url("../../public/font/Sansita/Sansita-Italic.ttf");
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Sansita", sans-serif;
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
+  max-width: 100vw;
+  overflow-x: hidden;
+  color: inherit;
   font-family: "Sansita", sans-serif;
-  font-size: 18px;
-  background-color: #fff;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
 }
 
 
