@@ -25,6 +25,9 @@ export default function App({ Component, pageProps, router }) {
   const darkTheme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
+      primary: {
+        main: "#ef6c00",
+      },
     },
   });
 

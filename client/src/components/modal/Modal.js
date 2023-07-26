@@ -27,7 +27,10 @@ const CustomModal = ({ title, content, textButton }) => {
   };
 
   const handleClose = () => {
-    notify("Our Top Candidate will contact you soon sending an email for details", "success");
+    notify(
+      "Our Top Candidate will contact you soon sending an email for details",
+      "success"
+    );
     setTimeout(() => {
       setOpen(false);
       router.push("/");
@@ -86,18 +89,18 @@ const CustomModal = ({ title, content, textButton }) => {
           >
             {textButton}
           </Button>
-          <ToastContainer
-            position="top-center"
-            autoClose={3000}
-            pauseOnHover={false}
-            transition={Slide}
-            hideProgressBar={false}
-            closeOnClick={true}
-            limit={5}
-            theme="light"
-          />
         </Box>
       </Modal>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        pauseOnHover={false}
+        transition={Slide}
+        hideProgressBar={false}
+        closeOnClick={true}
+        limit={5}
+        theme="light"
+      />
     </div>
   );
 };

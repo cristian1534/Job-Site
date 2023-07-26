@@ -52,7 +52,7 @@ const IconContainer = styled("div")`
 const CustomRecoverIcon = styled(NoEncryptionIcon)`
   width: 70px;
   height: 70px;
-  color: #1976d2;
+  color: #ff9100;
 `;
 
 const RedirectTypography = styled(Typography)`
@@ -63,11 +63,11 @@ const RedirectTypography = styled(Typography)`
     display: inline-block;
     margin-left: 5px;
     text-decoration: none;
-    color: #1976d2;
+    color: #e65100;
     font-weight: bold;
     transition: color 0.3s ease;
     &:hover {
-      color: #1565c0;
+      color: #ff9100;
     }
   }
 `;
@@ -143,7 +143,7 @@ const Recover = () => {
               variant="h5"
               m={2}
               align="center"
-              style={{ color: "#1976d2" }}
+              style={{ color: "#e65100" }}
             >
               <TypeAnimation
                 sequence={["Forgot Password?", 2000]}

@@ -70,7 +70,7 @@ const Index = ({ cardData }) => {
         style={{
           textAlign: "center",
           color: "#fff",
-          backgroundColor: "#00AAEF",
+          backgroundColor: "#e65100",
           fontSize: "18px",
           padding: "1rem",
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
@@ -82,7 +82,7 @@ const Index = ({ cardData }) => {
         }}
         buttonStyle={{
           background: "#FFF",
-          color: "#00AAEF",
+          color: "#e65100",
           fontSize: "14px",
           borderRadius: "180px",
           padding: "0.5rem 1rem",

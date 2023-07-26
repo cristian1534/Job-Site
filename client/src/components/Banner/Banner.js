@@ -80,7 +80,7 @@ const Banner = (props) => {
             >
               Become part of our candidates, it is very simple just{" "}
               <Link href="/register" style={{ textDecoration: "none" }}>
-                <b style={{ color: "#1976d2" }}>REGISTER</b>
+                <b style={{ color: "#e65100" }}>REGISTER</b>
               </Link>{" "}
               here.
             </Typography>

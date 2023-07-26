@@ -39,7 +39,7 @@ const Footer = () => {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    color: "#1976d2",
+    color: "#e65100",
   };
 
   return (

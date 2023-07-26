@@ -27,7 +27,7 @@ const IconContainer = styled("div")`
 const CustomContactMailIcon = styled(ContactMailIcon)`
   width: 70px;
   height: 70px;
-  color: #1976d2;
+  color: #e65100;
 `;
 
 const ContactForm = () => {
