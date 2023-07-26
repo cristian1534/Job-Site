@@ -44,6 +44,7 @@ export default function App({ Component, pageProps, router }) {
 
   const isLoginPage = router.pathname === "/login";
   const isRegisterPage = router.pathname === "/register";
+  const isRecoverPage = router.pathname === "/recover"
   const isAuthRequiredPage = authRequired.includes(router.pathname);
 
   return (
@@ -62,7 +63,7 @@ export default function App({ Component, pageProps, router }) {
                     <Component {...pageProps} />
                   </Layout>
                 </PrivateRoute>
-              ) : isLoginPage || isRegisterPage ? (
+              ) : isLoginPage || isRegisterPage || isRecoverPage ? (
                 <Component {...pageProps} />
               ) : (
                 <Layout changeMode={changeMode}>

@@ -12,7 +12,7 @@ import {
 import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
-import EngineeringIcon from "@mui/icons-material/Engineering";
+import NoEncryptionIcon from "@mui/icons-material/NoEncryption";
 import { useFirebaseApp } from "reactfire";
 import "firebase/auth";
 import { Slide, ToastContainer, toast } from "react-toastify";
@@ -44,7 +44,7 @@ const IconContainer = styled("div")`
   margin-bottom: 10px;
 `;
 
-const CustomEngineeringIcon = styled(EngineeringIcon)`
+const CustomRecoverIcon = styled(NoEncryptionIcon)`
   width: 70px;
   height: 70px;
   color: #1976d2;
@@ -68,7 +68,7 @@ const RedirectTypography = styled(Typography)`
 `;
 
 // Logic...
-const Login = () => {
+const Recover = () => {
   const firebase = useFirebaseApp();
   const formRef = useRef(null);
   const router = useRouter();
@@ -99,30 +99,13 @@ const Login = () => {
   const form = useForm({
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
   const { register, handleSubmit, formState } = form;
   const { errors } = formState;
 
-  const onSubmit = (data) => {
-    try {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(data.email, data.password)
-        .then((data) => {
-          notify("You've logged in successfully", "success");
-          setTimeout(() => router.push("/"), 3000);
-        })
-        .catch((err) => {
-          notify("Email or Password Wrong", "error");
-        });
-      formRef.current.reset();
-    } catch (err) {
-      return err.message;
-    }
-  };
+  const onSubmit = (data) => {};
 
   return (
     <FormContainer>
@@ -136,13 +119,13 @@ const Login = () => {
               style={{ color: "#1976d2" }}
             >
               <TypeAnimation
-                sequence={["TIME TO WORK!", 2000]}
+                sequence={["Forgot Password?", 2000]}
                 speed={30}
                 key={animationTrigger}
               />
             </GreyTypography>
             <IconContainer>
-              <CustomEngineeringIcon />
+              <CustomRecoverIcon />
             </IconContainer>
             <Stack spacing={2} width={1}>
               <TextField
@@ -159,20 +142,7 @@ const Login = () => {
                 error={!!errors.email}
                 helperText={errors.email?.message}
               />
-              <TextField
-                label="Password"
-                variant="standard"
-                type="password"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters",
-                  },
-                })}
-                error={!!errors.password}
-                helperText={errors.password?.message}
-              />
+
               <Button
                 variant="contained"
                 color="primary"
@@ -180,7 +150,7 @@ const Login = () => {
                 endIcon={<LoginOutlinedIcon />}
                 style={{ borderRadius: "180px" }}
               >
-                Login
+                Recover
               </Button>
               <ToastContainer
                 position="top-center"
@@ -192,18 +162,13 @@ const Login = () => {
                 limit={5}
                 theme="light"
               />
-              <RedirectTypography variant="span">
-                Don't have an account?
-                <Link href="/register" underline="none">
-                  Register
-                </Link>
-              </RedirectTypography>
-              <RedirectTypography variant="span">
-                <Link href="/recover" underline="none">
-                  Forgot Password
-                </Link>
-              </RedirectTypography>
             </Stack>
+            <RedirectTypography variant="span">
+              Back to
+              <Link href="/login" underline="none">
+                Login
+              </Link>
+            </RedirectTypography>
           </Form>
         </Grid>
       </Grid>
@@ -211,4 +176,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Recover;
