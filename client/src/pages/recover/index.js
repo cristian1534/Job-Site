@@ -13,11 +13,16 @@ import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import NoEncryptionIcon from "@mui/icons-material/NoEncryption";
-import { useFirebaseApp } from "reactfire";
 import "firebase/auth";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TypeAnimation } from "react-type-animation";
+import { auth } from "@/database/config";
+import {
+  fetchSignInMethodsForEmail,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -69,7 +74,6 @@ const RedirectTypography = styled(Typography)`
 
 // Logic...
 const Recover = () => {
-  const firebase = useFirebaseApp();
   const formRef = useRef(null);
   const router = useRouter();
 
@@ -105,7 +109,30 @@ const Recover = () => {
   const { register, handleSubmit, formState } = form;
   const { errors } = formState;
 
-  const onSubmit = (data) => {};
+  const onSubmit = async (data) => {
+    const validatedEmail = await fetchSignInMethodsForEmail(auth, data.email);
+    if (validatedEmail.length === 0) {
+      formRef.current.reset();
+      notify("Email not registered", "error");
+      return;
+    }
+
+    await sendPasswordResetEmail(auth, data.email)
+      .then(() => {
+        notify(
+          "Check your email out, we sent a link to reset your password",
+          "success"
+        );
+        setTimeout(() => {
+          formRef.current.reset();
+          router.push("/login"), 3000;
+        });
+      })
+      .catch((err) => {
+        formRef.current.reset();
+        notify("At this time we can not reset your password", "error");
+      });
+  };
 
   return (
     <FormContainer>

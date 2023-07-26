@@ -17,6 +17,9 @@ import { TypeAnimation } from "react-type-animation";
 import { db } from "../../database/config";
 import { useFirebaseApp } from "reactfire";
 import "firebase/auth";
+import { sendEmailVerification } from "firebase/auth";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -90,12 +93,26 @@ const Register = () => {
 
   const { register, handleSubmit, formState } = form;
   const { errors } = formState;
+  const notify = (message, type) => {
+    switch (type) {
+      case "success":
+        toast.success(message);
+        break;
+      case "error":
+        toast.error(message);
+        break;
+      default:
+        toast(message);
+    }
+  };
 
   const onSubmit = async (data) => {
     try {
       const userCredential = await firebase
         .auth()
         .createUserWithEmailAndPassword(data.email, data.password);
+
+      await sendEmailVerification(userCredential.user);
 
       const user = userCredential.user;
 
@@ -110,9 +127,12 @@ const Register = () => {
       });
 
       formRef.current.reset();
-      router.push("/login");
+      notify("Please verify your email and activate your account.", "success");
+      setTimeout(() => {
+        router.push("/login");
+      }, 3000);
     } catch (err) {
-      console.log(err.message);
+      notify("Could not send a verification email at this time");
     }
   };
 
@@ -182,6 +202,16 @@ const Register = () => {
               >
                 Register
               </Button>
+              <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                pauseOnHover={false}
+                transition={Slide}
+                hideProgressBar={false}
+                closeOnClick={true}
+                limit={5}
+                theme="light"
+              />
               <RedirectTypography variant="span">
                 Already have an account?
                 <Link href="/login" underline="none">

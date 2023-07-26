@@ -111,9 +111,17 @@ const Login = () => {
       firebase
         .auth()
         .signInWithEmailAndPassword(data.email, data.password)
-        .then((data) => {
-          notify("You've logged in successfully", "success");
-          setTimeout(() => router.push("/"), 3000);
+        .then((userCredential) => {
+          const user = userCredential.user;
+          if (user.emailVerified) {
+            notify("You've logged in successfully", "success");
+            setTimeout(() => router.push("/"), 3000);
+          } else {
+            notify(
+              "Please verify your email. Then try to Log in again",
+              "error"
+            );
+          }
         })
         .catch((err) => {
           notify("Email or Password Wrong", "error");
