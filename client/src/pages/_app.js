@@ -10,7 +10,13 @@ import { FirebaseAppProvider } from "reactfire";
 import { UserProvider } from "@/components/user/User";
 import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 import Loader from "../components/Loader/Loader";
+import { Pacifico } from "next/font/google";
 
+const pacifico = Pacifico({
+  subsets: ["latin"],
+  variable: "--font-pacifico",
+  weight: "400",
+});
 
 export default function App({ Component, pageProps, router }) {
   const [darkMode, setDarkMode] = useState(false);
@@ -44,35 +50,39 @@ export default function App({ Component, pageProps, router }) {
 
   const isLoginPage = router.pathname === "/login";
   const isRegisterPage = router.pathname === "/register";
-  const isRecoverPage = router.pathname === "/recover"
+  const isRecoverPage = router.pathname === "/recover";
   const isAuthRequiredPage = authRequired.includes(router.pathname);
 
   return (
-      <FirebaseAppProvider firebaseApp={firebaseApp}>
-        <ThemeProvider theme={darkTheme}>
-          <CssBaseline />
-          <UserProvider>
-            <Provider store={reduxStore}>
-              {authLoading ? (
-                <div>
-                  <Loader />
-                </div>
-              ) : isAuthRequiredPage ? (
-                <PrivateRoute>
+    <FirebaseAppProvider firebaseApp={firebaseApp}>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <UserProvider>
+          <Provider store={reduxStore}>
+            {authLoading ? (
+              <div>
+                <Loader />
+              </div>
+            ) : isAuthRequiredPage ? (
+              <PrivateRoute>
+                <main className={`${pacifico.variable} font-sans`}>
                   <Layout changeMode={changeMode}>
                     <Component {...pageProps} />
                   </Layout>
-                </PrivateRoute>
-              ) : isLoginPage || isRegisterPage || isRecoverPage ? (
-                <Component {...pageProps} />
-              ) : (
+                </main>
+              </PrivateRoute>
+            ) : isLoginPage || isRegisterPage || isRecoverPage ? (
+              <Component {...pageProps} />
+            ) : (
+              <main className={`${pacifico.variable} font-sans`}>
                 <Layout changeMode={changeMode}>
                   <Component {...pageProps} />
                 </Layout>
-              )}
-            </Provider>
-          </UserProvider>
-        </ThemeProvider>
-      </FirebaseAppProvider>
+              </main>
+            )}
+          </Provider>
+        </UserProvider>
+      </ThemeProvider>
+    </FirebaseAppProvider>
   );
 }
