@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Grid, Box, Button, Card } from "@mui/material";
 import { styled } from "@mui/material";
-import Menu from "../components/menu/Menu";
 import Banner from "@/components/Banner/Banner";
 import ContactForm from "@/components/Contact/ContactForm";
 import LineTime from "@/components/LineTime/LineTime";
@@ -54,7 +53,6 @@ const Index = ({ cardData }) => {
       <section id="top">
         <Banner {...content} />
       </section>
-      <Menu />
       <section id="candidates">
         <CardList cardData={cardData} />
       </section>

@@ -1,12 +1,21 @@
-import React from "react";
-import { Container, Select, MenuItem, FormControl, Box, Typography } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Container,
+  Select,
+  MenuItem,
+  FormControl,
+  Box,
+  Typography,
+} from "@mui/material";
 import { styled } from "@mui/system";
 
-const Menu = () => {
-  const [value, setValue] = React.useState("Technology");
+const Menu = ({ handleFilterChange }) => {
+  const [value, setValue] = useState("");
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
+  const handleChange = (e) => {
+    const selectedValue = e.target.value;
+    setValue(selectedValue);
+    handleFilterChange(selectedValue);
   };
 
   const MenuBox = styled(Container)`
@@ -27,6 +36,7 @@ const Menu = () => {
             <MenuItem value="Technology">Technology</MenuItem>
             <MenuItem value="Administration">Administration</MenuItem>
             <MenuItem value="Education">Education</MenuItem>
+            <MenuItem value="Other">Other</MenuItem>
           </Select>
         </Box>
       </FormControl>

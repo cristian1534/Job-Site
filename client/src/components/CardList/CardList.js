@@ -4,6 +4,7 @@ import CardUser from "@/components/card";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import Menu from "../menu/Menu";
 
 const CardList = ({ cardData }) => {
   const PaginationContainer = styled(Box)`
@@ -14,19 +15,30 @@ const CardList = ({ cardData }) => {
   `;
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [filteredData, setFilteredData] = useState(cardData);
+
   const itemsPerPage = 2;
   const startIndex = (currentPage - 1) * itemsPerPage;
   let endIndex = startIndex + itemsPerPage;
-  endIndex = Math.min(endIndex, cardData.length);
-  const visibleCards = cardData.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(cardData.length / itemsPerPage);
+  endIndex = Math.min(endIndex, filteredData.length);
+  const visibleCards = filteredData.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
+  const handleFilterChange = (selectedValue) => {
+    const filteredProfiles = cardData.filter(
+      (profile) => profile.category === selectedValue
+    );
+    setFilteredData(filteredProfiles);
+    setCurrentPage(1);
+  };
+
   return (
     <Box display="flex" flexDirection="column" justifyContent="center">
+      <Menu handleFilterChange={handleFilterChange} />
       <Box
         display="flex"
         flexDirection="column"
@@ -52,7 +64,7 @@ const CardList = ({ cardData }) => {
         style={{ gap: "20px" }}
         sx={{
           flexDirection: "column",
-  alignItems: "center",
+          alignItems: "center",
         }}
       >
         {visibleCards.map((card) => (
