@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+    web:
+      container_name: client-service
+      build: ./client
+      restart: always
+      ports:
+      - "3000:3000"
+      volumes:
+        - .:/app
