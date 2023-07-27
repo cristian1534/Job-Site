@@ -26,7 +26,8 @@ const IconContainer = styled("div")`
 const ProfileAvatar = styled(Avatar)`
   width: 70px;
   height: 70px;
-  background-color: #1976d2;
+  background-color: #ef6c00;
+  border: 2px solid #ef6c00;
 `;
 
 const CustomCard = styled(Card)`
@@ -45,7 +46,7 @@ const CustomCardHeader = styled(CardHeader)`
 
 const CardUser = ({ id, name, title, subheader, photo }) => {
   const router = useRouter();
-console.log("Este: ", id)
+  console.log("Este: ", id);
   return (
     <motion.div
       variants={fadeIn("down", 0.3)}
@@ -57,7 +58,7 @@ console.log("Este: ", id)
         <CustomCardHeader
           action={
             <IconButton>
-              <GradeIcon color="warning" />
+              <GradeIcon style={{ color: "#ffc400" }} />
             </IconButton>
           }
           title={title}

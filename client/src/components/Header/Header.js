@@ -32,7 +32,8 @@ export default function Header({ changeMode, darkMode }) {
   const ProfileAvatar = styled(Avatar)`
     width: 50px;
     height: 50px;
-    background-color: #1976d2;
+    background-color: #ef6c00;
+    border: 2px solid #fff;
   `;
 
   return (
@@ -42,6 +43,7 @@ export default function Header({ changeMode, darkMode }) {
           sx={{
             display: "flex",
             justifyContent: "center",
+            padding: "1rem",
           }}
         >
           <Typography
