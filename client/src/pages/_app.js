@@ -1,3 +1,4 @@
+import Head from "next/head";
 import "@/styles/globals.css";
 import Layout from "@/components/Layout/Layout";
 import { Provider } from "react-redux";
@@ -10,13 +11,6 @@ import { FirebaseAppProvider } from "reactfire";
 import { UserProvider } from "@/components/user/User";
 import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 import Loader from "../components/Loader/Loader";
-import { Pacifico } from "next/font/google";
-
-const pacifico = Pacifico({
-  subsets: ["latin"],
-  variable: "--font-pacifico",
-  weight: "400",
-});
 
 export default function App({ Component, pageProps, router }) {
   const [darkMode, setDarkMode] = useState(false);
@@ -28,6 +22,9 @@ export default function App({ Component, pageProps, router }) {
       primary: {
         main: "#ef6c00",
       },
+    },
+    typography: {
+      fontFamily: "Pacifico, sans-serif",
     },
   });
 
@@ -62,13 +59,26 @@ export default function App({ Component, pageProps, router }) {
         <CssBaseline />
         <UserProvider>
           <Provider store={reduxStore}>
+            <Head>
+              <link
+                href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+                rel="stylesheet"
+              />
+              <style>
+                {`
+                  body {
+                    font-family: 'Pacifico', sans-serif;
+                  }
+                `}
+              </style>
+            </Head>
             {authLoading ? (
               <div>
                 <Loader />
               </div>
             ) : isAuthRequiredPage ? (
               <PrivateRoute>
-                <main className={`${pacifico.variable} font-sans`}>
+                <main className="font-sans">
                   <Layout changeMode={changeMode}>
                     <Component {...pageProps} />
                   </Layout>
@@ -77,7 +87,7 @@ export default function App({ Component, pageProps, router }) {
             ) : isLoginPage || isRegisterPage || isRecoverPage ? (
               <Component {...pageProps} />
             ) : (
-              <main className={`${pacifico.variable} font-sans`}>
+              <main className="font-sans">
                 <Layout changeMode={changeMode}>
                   <Component {...pageProps} />
                 </Layout>

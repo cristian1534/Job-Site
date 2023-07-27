@@ -9,7 +9,7 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   color: inherit;
-  font-family: var(--font-pacifico);
+  /* font-family: var(--font-pacifico); */
 }
 
 body.dark-mode {
