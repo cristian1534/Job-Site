@@ -12,7 +12,10 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { userContext } from "../user/User";
 import { useDispatch } from "react-redux";
-import { deleteProfileById } from "@/redux/reducers/profileById";
+import {
+  deleteProfileById,
+  updateProfileById,
+} from "@/redux/reducers/profileById";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
@@ -58,18 +61,6 @@ const IconContainer = styled("div")`
 `;
 
 const ProfileDetails = ({ profile }) => {
-  // const {
-  //   name,
-  //   email,
-  //   telephone,
-  //   address,
-  //   photo,
-  //   experienceOne,
-  //   experienceOneDate,
-  //   experienceTwo,
-  //   experienceTwoDate,
-  //   skills,
-  // } = profile;
   const router = useRouter();
   const [animationTrigger, setAnimationTrigger] = useState(0);
   const [user, setUser] = useState(profile);
@@ -89,16 +80,16 @@ const ProfileDetails = ({ profile }) => {
 
   const form = useForm({
     defaultValues: {
-      name: "",
-      email: "",
-      telephone: "",
-      address: "",
-      photo: "",
-      experienceOne: "",
-      experienceOneDate: "",
-      experienceTwo: "",
-      experienceTwoDate: "",
-      skills: "",
+      name: profile.name,
+      email: profile.email,
+      telephone: profile.telephone,
+      address: profile.address,
+      photo: profile.photo,
+      experienceOne: profile.experienceOne,
+      experienceOneDate: profile.experienceOneDate,
+      experienceTwo: profile.experienceTwo,
+      experienceTwoDate: profile.experienceTwoDate,
+      skills: profile.skills,
     },
   });
 
@@ -136,8 +127,25 @@ const ProfileDetails = ({ profile }) => {
     }));
   };
 
-  const onSubmit = (data) => {
-    console.log(use.id);
+  const onSubmit = async (data) => {
+    try {
+      const updatedProfile = { ...user, ...data };
+      await dispatch(
+        updateProfileById({ profileId: user.id, newData: updatedProfile })
+      );
+      setUser(updatedProfile);
+      setIsEdit(!isEdit);
+      notify("Profile has been updated", "success");
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
+    } catch (err) {
+      setIsEdit(!isEdit);
+      notify("Profile could not be updated", "error");
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
+    }
   };
 
   return (
@@ -165,6 +173,7 @@ const ProfileDetails = ({ profile }) => {
           <Grid item xs={12}>
             <TextField
               label="Name"
+              name="name"
               type="text"
               {...register("name")}
               value={user.name}
@@ -178,6 +187,7 @@ const ProfileDetails = ({ profile }) => {
           <Grid item xs={12}>
             <TextField
               label="Email"
+              name="email"
               type="email"
               {...register("email")}
               value={user.email}
@@ -191,6 +201,7 @@ const ProfileDetails = ({ profile }) => {
           <Grid item xs={12}>
             <TextField
               label="Telephone"
+              name="telephone"
               type="tel"
               {...register("telephone")}
               value={user.telephone}
@@ -204,6 +215,7 @@ const ProfileDetails = ({ profile }) => {
           <Grid item xs={12}>
             <TextField
               label="Address"
+              name="address"
               type="text"
               {...register("address")}
               value={user.address}
@@ -217,6 +229,7 @@ const ProfileDetails = ({ profile }) => {
           <Grid item xs={12}>
             <TextField
               label="Skills"
+              name="skills"
               type="text"
               {...register("skills")}
               value={user.skills}
@@ -230,6 +243,7 @@ const ProfileDetails = ({ profile }) => {
           <Grid item xs={12}>
             <TextField
               label="Last Job Experience"
+              name="experienceOne"
               type="text"
               {...register("experienceOne")}
               value={user.experienceOne}
@@ -243,6 +257,7 @@ const ProfileDetails = ({ profile }) => {
           <Grid item xs={12}>
             <TextField
               label="Last Job Experience Date"
+              name="experienceOneDate"
               type="text"
               {...register("experienceOneDate")}
               value={user.experienceOneDate}
@@ -256,6 +271,7 @@ const ProfileDetails = ({ profile }) => {
           <Grid item xs={12}>
             <TextField
               label="Job Experience"
+              name="experienceTwo"
               type="text"
               {...register("experienceTwo")}
               value={user.experienceTwo}
@@ -269,6 +285,7 @@ const ProfileDetails = ({ profile }) => {
           <Grid item xs={12}>
             <TextField
               label="Job Experience Date"
+              name="experienceTwoDate"
               type="text"
               {...register("experienceTwoDate")}
               value={user.experienceTwoDate}
@@ -311,6 +328,7 @@ const ProfileDetails = ({ profile }) => {
                 startIcon={<ModeEditIcon />}
                 style={{ borderRadius: "180px" }}
                 type="submit"
+                disabled={isEdit}
               >
                 Update
               </Button>

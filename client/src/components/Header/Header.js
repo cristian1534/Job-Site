@@ -5,6 +5,8 @@ import {
   Typography,
   Button,
   IconButton,
+  Avatar,
+  styled,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -14,12 +16,24 @@ import { userContext } from "../user/User";
 
 export default function Header({ changeMode, darkMode }) {
   const { currentUser } = useContext(userContext);
-  
 
   const router = useRouter();
   const sunIconStyle = {
     color: "#fff",
   };
+
+  const IconContainer = styled("div")`
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    align-items: center;
+  `;
+
+  const ProfileAvatar = styled(Avatar)`
+    width: 50px;
+    height: 50px;
+    background-color: #1976d2;
+  `;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -45,7 +59,10 @@ export default function Header({ changeMode, darkMode }) {
             WORK WISE
           </Typography>
           {currentUser && (
-            <div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <IconContainer style={{ marginRight: "10px" }}>
+                <ProfileAvatar src={currentUser.photoURL} alt="avatar" />
+              </IconContainer>
               <Button color="inherit" onClick={() => router.push("/")}>
                 Chat
               </Button>
@@ -54,6 +71,7 @@ export default function Header({ changeMode, darkMode }) {
               </Button>
             </div>
           )}
+
           <IconButton onClick={() => changeMode()}>
             {darkMode ? (
               <Brightness4Icon />
