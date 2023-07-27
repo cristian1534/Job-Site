@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { deleteProfileById } from "@/redux/reducers/profileById";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useForm } from "react-hook-form";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -57,20 +58,22 @@ const IconContainer = styled("div")`
 `;
 
 const ProfileDetails = ({ profile }) => {
-  const {
-    name,
-    email,
-    telephone,
-    address,
-    photo,
-    experienceOne,
-    experienceOneDate,
-    experienceTwo,
-    experienceTwoDate,
-    skills,
-  } = profile;
+  // const {
+  //   name,
+  //   email,
+  //   telephone,
+  //   address,
+  //   photo,
+  //   experienceOne,
+  //   experienceOneDate,
+  //   experienceTwo,
+  //   experienceTwoDate,
+  //   skills,
+  // } = profile;
   const router = useRouter();
   const [animationTrigger, setAnimationTrigger] = useState(0);
+  const [user, setUser] = useState(profile);
+  const [isEdit, setIsEdit] = useState(true);
   const { currentUser } = useContext(userContext);
   const dispatch = useDispatch();
   const { id } = router.query;
@@ -79,13 +82,27 @@ const ProfileDetails = ({ profile }) => {
       case "success":
         toast.success(message);
         break;
-      case "error":
-        toast.error(message);
-        break;
       default:
         toast(message);
     }
   };
+
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      telephone: "",
+      address: "",
+      photo: "",
+      experienceOne: "",
+      experienceOneDate: "",
+      experienceTwo: "",
+      experienceTwoDate: "",
+      skills: "",
+    },
+  });
+
+  const { register, handleSubmit } = form;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -107,9 +124,25 @@ const ProfileDetails = ({ profile }) => {
     }
   };
 
+  const handleEdit = () => {
+    setIsEdit(!isEdit);
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+  };
+
+  const onSubmit = (data) => {
+    console.log(use.id);
+  };
+
   return (
     <FormContainer style={{ marginTop: "1rem", marginBottom: "1rem" }}>
-      <Form noValidate>
+      <Form noValidate onSubmit={handleSubmit(onSubmit)}>
         <Typography variant="h4" textAlign="center" color="primary">
           <TypeAnimation
             sequence={["TOP CANDIDATE   ", 2000]}
@@ -126,106 +159,124 @@ const ProfileDetails = ({ profile }) => {
           CANDIDATE PROFILE
         </Typography>
         <IconContainer>
-          <ProfileAvatar src={photo} alt={name} />
+          <ProfileAvatar src={user.photo} alt={name} />
         </IconContainer>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
               label="Name"
               type="text"
-              value={name}
-              disabled
+              {...register("name")}
+              value={user.name}
+              disabled={isEdit}
               variant="standard"
               fullWidth
               required
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Email"
               type="email"
-              value={email}
-              disabled
+              {...register("email")}
+              value={user.email}
+              disabled={isEdit}
               variant="standard"
               fullWidth
               required
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Telephone"
               type="tel"
-              value={telephone}
-              disabled
+              {...register("telephone")}
+              value={user.telephone}
+              disabled={isEdit}
               variant="standard"
               fullWidth
               required
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Address"
               type="text"
-              value={address}
-              disabled
+              {...register("address")}
+              value={user.address}
+              disabled={isEdit}
               variant="standard"
               fullWidth
               required
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Skills"
               type="text"
-              value={skills}
-              disabled
+              {...register("skills")}
+              value={user.skills}
+              disabled={isEdit}
               variant="standard"
               fullWidth
               required
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Last Job Experience"
               type="text"
-              value={experienceOne}
-              disabled
+              {...register("experienceOne")}
+              value={user.experienceOne}
+              disabled={isEdit}
               variant="standard"
               fullWidth
               required
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Last Job Experience Date"
               type="text"
-              value={experienceOneDate}
-              disabled
+              {...register("experienceOneDate")}
+              value={user.experienceOneDate}
+              disabled={isEdit}
               variant="standard"
               fullWidth
               required
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Job Experience"
               type="text"
-              value={experienceTwo}
-              disabled
+              {...register("experienceTwo")}
+              value={user.experienceTwo}
+              disabled={isEdit}
               variant="standard"
               fullWidth
               required
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Job Experience Date"
               type="text"
-              value={experienceTwoDate}
-              disabled
+              {...register("experienceTwoDate")}
+              value={user.experienceTwoDate}
+              disabled={isEdit}
               variant="standard"
               fullWidth
               required
+              onChange={handleChange}
             />
           </Grid>
           <Grid
@@ -244,15 +295,28 @@ const ProfileDetails = ({ profile }) => {
             >
               Back
             </Button>
-            <Box ml={2}>
-              <CustomModal
-                title="SELECT THIS CANDIDATE"
-                content="We will send a notification to our Candidate regarding your interest."
-                textButton="Send"
-              />
-            </Box>
+            {currentUser && currentUser.email !== user.email && (
+              <Box ml={2}>
+                <CustomModal
+                  title="SELECT THIS CANDIDATE"
+                  content="We will send a notification to our Candidate regarding your interest."
+                  textButton="Send"
+                />
+              </Box>
+            )}
+            {currentUser && currentUser.email === user.email && (
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<ModeEditIcon />}
+                style={{ borderRadius: "180px" }}
+                type="submit"
+              >
+                Update
+              </Button>
+            )}
           </Grid>
-          {currentUser && currentUser.email === email && (
+          {currentUser && currentUser.email === user.email && (
             <Grid
               item
               xs={12}
@@ -264,6 +328,7 @@ const ProfileDetails = ({ profile }) => {
                 style={{ borderRadius: "180px" }}
                 variant="outlined"
                 color="success"
+                onClick={handleEdit}
               >
                 <ModeEditIcon style={{ color: "green" }} />
               </Button>
@@ -276,16 +341,16 @@ const ProfileDetails = ({ profile }) => {
                 >
                   <DeleteIcon style={{ color: "red" }} />
                 </Button>
-              <ToastContainer
-                position="top-center"
-                autoClose={3000}
-                pauseOnHover={false}
-                transition={Slide}
-                hideProgressBar={false}
-                closeOnClick={true}
-                limit={5}
-                theme="light"
-              />
+                <ToastContainer
+                  position="top-center"
+                  autoClose={3000}
+                  pauseOnHover={false}
+                  transition={Slide}
+                  hideProgressBar={false}
+                  closeOnClick={true}
+                  limit={5}
+                  theme="light"
+                />
               </Box>
             </Grid>
           )}
