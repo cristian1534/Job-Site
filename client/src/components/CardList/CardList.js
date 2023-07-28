@@ -5,6 +5,7 @@ import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import Menu from "../menu/Menu";
+import { NoCandidates } from "../NoCandidates/NoCandidates";
 
 const CardList = ({ cardData }) => {
   const PaginationContainer = styled(Box)`
@@ -67,16 +68,20 @@ const CardList = ({ cardData }) => {
           alignItems: "center",
         }}
       >
-        {visibleCards.map((card) => (
-          <CardUser
-            key={card.id}
-            id={card.id}
-            name={card.name}
-            photo={card.photo}
-            title={card.experienceOne}
-            subheader={card.category}
-          />
-        ))}
+        {!visibleCards.length ? (
+          <NoCandidates />
+        ) : (
+          visibleCards.map((card) => (
+            <CardUser
+              key={card.id}
+              id={card.id}
+              name={card.name}
+              photo={card.photo}
+              title={card.experienceOne}
+              subheader={card.category}
+            />
+          ))
+        )}
       </Box>
 
       <PaginationContainer>
