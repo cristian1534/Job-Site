@@ -51,7 +51,8 @@ const Form = styled("form")`
 const ProfileAvatar = styled(Avatar)`
   width: 70px;
   height: 70px;
-  background-color: #1976d2;
+  background-color: #ef6c00;
+  border: 2px solid #ef6c00;
 `;
 
 const IconContainer = styled("div")`

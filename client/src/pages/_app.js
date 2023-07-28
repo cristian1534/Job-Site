@@ -69,6 +69,9 @@ export default function App({ Component, pageProps, router }) {
                   body {
                     font-family: 'Pacifico', sans-serif;
                   }
+                  span {
+                    font-family: 'Pacifico', sans-serif;
+                  }
                 `}
               </style>
             </Head>
