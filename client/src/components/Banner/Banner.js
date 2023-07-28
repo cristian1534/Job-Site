@@ -5,6 +5,7 @@ import Link from "next/link";
 import { TypeAnimation } from "react-type-animation";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/variants";
+import Image from "next/image";
 
 // Styles...
 const BoxContainer = styled(Box)`
@@ -20,11 +21,11 @@ const BoxContainer = styled(Box)`
   }
 `;
 
-const Image = styled("img")`
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-`;
+// const CustomImage = styled(Image)`
+//   width: 100%;
+//   max-width: 400px;
+//   height: auto;
+// `;
 
 const Banner = (props) => {
   const [animationTrigger, setAnimationTrigger] = useState(0);
@@ -39,7 +40,7 @@ const Banner = (props) => {
 
   return (
     <Container>
-       <Divider light />
+      <Divider light />
       <BoxContainer>
         <Typography variant="h4" color="primary" align="center" mb={3}>
           <TypeAnimation
@@ -69,7 +70,11 @@ const Banner = (props) => {
           whileInView={"show"}
           viewport={{ once: false, amount: 0.7 }}
         >
-          <Image src={props.url} alt="banner" />
+          <Image
+            src={props.url}
+            alt="banner"
+            style={{ width: "100%", height: "auto" }}
+          />
           {props.redirection && (
             <Typography
               variant="body1"

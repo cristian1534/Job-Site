@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Modal, Typography, Box, TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
 import { useRouter } from "next/router";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import sendEmail from "../Emailer/Emailer";
+import { userContext } from "../user/User";
 
-const CustomModal = ({ title, content, textButton }) => {
+const CustomModal = ({ title, content, textButton, name, email }) => {
   const [open, setOpen] = useState(false);
+  const [offer, setOffer] = useState("");
+  const { currentUser } = useContext(userContext);
+
   const router = useRouter();
   const notify = (message, type) => {
     switch (type) {
@@ -27,14 +32,28 @@ const CustomModal = ({ title, content, textButton }) => {
   };
 
   const handleClose = () => {
-    notify(
-      "Our Top Candidate will contact you soon sending an email for details",
-      "success"
-    );
-    setTimeout(() => {
-      setOpen(false);
-      router.push("/");
-    }, 3000);
+    let toName = name; //pedro
+    let fromName = currentUser.displayName;
+    let contactEmail = currentUser.email;
+
+    sendEmail(toName, fromName, email, offer, contactEmail)
+      .then(() => {
+        setOffer("");
+        notify(
+          "We have notified our Candidate regarding your interest",
+          "success"
+        );
+        setTimeout(() => {
+          router.push("/");
+        }, 3000);
+      })
+      .catch(() => {
+        setOffer("");
+        notify("Could not send your concern at this time", "error");
+        setTimeout(() => {
+          router.push("/");
+        }, 3000);
+      });
   };
 
   return (
@@ -79,6 +98,7 @@ const CustomModal = ({ title, content, textButton }) => {
             variant="standard"
             label="Write a message..."
             style={{ marginBottom: "2rem" }}
+            onChange={(e) => setOffer(e.target.value)}
           />
 
           <Button

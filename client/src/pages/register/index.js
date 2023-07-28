@@ -12,7 +12,6 @@ import {
 import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
-import WorkIcon from "@mui/icons-material/Work";
 import { TypeAnimation } from "react-type-animation";
 import { db } from "../../database/config";
 import { useFirebaseApp } from "reactfire";
@@ -20,6 +19,8 @@ import "firebase/auth";
 import { sendEmailVerification } from "firebase/auth";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Logo from "../../assets/wwlogo.png";
+import Image from "next/image";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -46,11 +47,6 @@ const IconContainer = styled("div")`
   margin-bottom: 10px;
 `;
 
-const CustomWorkIcon = styled(WorkIcon)`
-  width: 70px;
-  height: 70px;
-  color: #e65100;
-`;
 
 const RedirectTypography = styled(Typography)`
   display: flex;
@@ -154,7 +150,7 @@ const Register = () => {
               />
             </GreyTypography>
             <IconContainer>
-              <CustomWorkIcon />
+              <Image src={Logo} alt="logo" style={{ width: "10rem", height: "10rem"}}/>
             </IconContainer>
             <Stack spacing={2} width={1}>
               <TextField

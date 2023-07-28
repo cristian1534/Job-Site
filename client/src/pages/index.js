@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Container, Grid, Box, Button, Card } from "@mui/material";
+import React, { useEffect } from "react";
+import { Container } from "@mui/material";
 import { styled } from "@mui/material";
 import Banner from "@/components/Banner/Banner";
 import ContactForm from "@/components/Contact/ContactForm";
@@ -12,6 +12,8 @@ import CardList from "@/components/CardList/CardList";
 import { fetchProfiles } from "@/redux/reducers/profile";
 import store from "@/redux/store";
 import Loader from "../components/Loader/Loader";
+import Logo from "../assets/wwlogo.png";
+import Process from "../assets/process.png";
 
 // Styles...
 
@@ -28,7 +30,7 @@ const Index = ({ cardData }) => {
     title: "We're excited to have you here!",
     subTitle:
       "At WORK WISE, we offer top-notch freelancers across various categories, ensuring exceptional experience and quality.",
-    url: "https://img.freepik.com/free-vector/builders-construction-workers-helmets_107791-12576.jpg",
+    url: Logo,
     redirection: true,
   };
 
@@ -36,7 +38,7 @@ const Index = ({ cardData }) => {
     title: "How it works?",
     subTitle:
       "Keep showing your Skills and Portfolio regarding your Profession, so more chances will come to match potential jobs.",
-    url: "https://icsblog.s3.ap-south-1.amazonaws.com/blog/wp-content/uploads/2021/08/12163637/ICS-Blog-simon-page.com_.jpg",
+    url: Process,
     redirection: false,
   };
 

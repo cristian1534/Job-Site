@@ -319,6 +319,8 @@ const ProfileDetails = ({ profile }) => {
                   title="SELECT THIS CANDIDATE"
                   content="We will send a notification to our Candidate regarding your interest."
                   textButton="Send"
+                  email={user.email}
+                  name={user.name}
                 />
               </Box>
             )}

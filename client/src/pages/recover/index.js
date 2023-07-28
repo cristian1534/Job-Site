@@ -20,9 +20,10 @@ import { TypeAnimation } from "react-type-animation";
 import { auth } from "@/database/config";
 import {
   fetchSignInMethodsForEmail,
-  sendEmailVerification,
   sendPasswordResetEmail,
 } from "firebase/auth";
+import Logo from "../../assets/wwlogo.png";
+import Image from "next/image";
 
 // Styles...
 const FormContainer = styled(Container)`
@@ -49,11 +50,6 @@ const IconContainer = styled("div")`
   margin-bottom: 10px;
 `;
 
-const CustomRecoverIcon = styled(NoEncryptionIcon)`
-  width: 70px;
-  height: 70px;
-  color: #ff9100;
-`;
 
 const RedirectTypography = styled(Typography)`
   display: flex;
@@ -152,7 +148,11 @@ const Recover = () => {
               />
             </GreyTypography>
             <IconContainer>
-              <CustomRecoverIcon />
+              <Image
+                src={Logo}
+                alt="logo"
+                style={{ width: "10rem", height: "10rem" }}
+              />
             </IconContainer>
             <Stack spacing={2} width={1}>
               <TextField
