@@ -151,7 +151,7 @@ const Recover = () => {
               <Image
                 src={Logo}
                 alt="logo"
-                style={{ width: "10rem", height: "10rem" }}
+                style={{ width: "10rem", height: "auto" }}
               />
             </IconContainer>
             <Stack spacing={2} width={1}>

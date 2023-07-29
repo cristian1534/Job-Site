@@ -72,6 +72,7 @@ const ProfileDetails = () => {
     experienceOneDate: null,
     experienceTwo: "",
     experienceTwoDate: null,
+    range: "",
     photo: "",
   });
 
@@ -130,6 +131,7 @@ const ProfileDetails = () => {
         experienceOneDate: data.experienceOneDate,
         experienceTwo: data.experienceTwo,
         experienceTwoDate: data.experienceTwoDate,
+        range: data.range,
         photo: url,
       });
 
@@ -293,6 +295,17 @@ const ProfileDetails = () => {
               })}
               error={!!errors.experienceTwoDate}
               helperText={errors.experienceTwoDate?.message}
+              variant="standard"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              type="number"
+              label="Range u$d per hour"
+              {...register("range", { required: "Range is required" })}
+              error={!!errors.range}
+              helperText={errors.range?.message}
               variant="standard"
               fullWidth
             />

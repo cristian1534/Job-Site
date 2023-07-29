@@ -79,6 +79,7 @@ const CardList = ({ cardData }) => {
               photo={card.photo}
               title={card.experienceOne}
               subheader={card.category}
+              range={card.range}
             />
           ))
         )}

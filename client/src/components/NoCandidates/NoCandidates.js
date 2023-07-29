@@ -15,9 +15,9 @@ export const NoCandidates = () => {
 
   return (
     <div>
-      <Typography variant="h3" color="primary">
+      <Typography variant="h6" color="textSecondary">
         <TypeAnimation
-          sequence={["NO CANDIDATES SO FAR...", 2000]}
+          sequence={["No Candidates Here", 2000]}
           speed={30}
           key={animationTrigger}
         />

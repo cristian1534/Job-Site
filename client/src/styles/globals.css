@@ -16,7 +16,6 @@ body.dark-mode {
 }
 
 body.dark-mode input.MuiInputBase-input {
-  background-color: #333;
   color: #fff;
 }
 

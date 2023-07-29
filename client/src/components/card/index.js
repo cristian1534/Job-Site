@@ -19,7 +19,7 @@ import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 const IconContainer = styled("div")`
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   align-items: center;
 `;
 
@@ -44,9 +44,9 @@ const CustomCardHeader = styled(CardHeader)`
   margin-top: 15px;
 `;
 
-const CardUser = ({ id, name, title, subheader, photo }) => {
+const CardUser = ({ id, name, title, subheader, photo, range }) => {
   const router = useRouter();
-  console.log("Este: ", id);
+
   return (
     <motion.div
       variants={fadeIn("down", 0.3)}
@@ -69,6 +69,9 @@ const CardUser = ({ id, name, title, subheader, photo }) => {
         </IconContainer>
         <CardContent>
           <Box display="flex" flexDirection="column" alignItems="center">
+            <Typography mb={1}>
+                u$d {range}/hour
+            </Typography>
             <Typography variant="body2" color="textSecondary" mb={1}>
               {name}
             </Typography>

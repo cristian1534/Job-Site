@@ -140,13 +140,13 @@ const Login = () => {
               style={{ color: "#e65100" }}
             >
               <TypeAnimation
-                sequence={["TIME TO WORK!", 2000]}
+                sequence={["Welcome back!", 2000]}
                 speed={30}
                 key={animationTrigger}
               />
             </GreyTypography>
             <IconContainer>
-              <Image src={Logo} alt="logo" style={{ width: "10rem", height: "10rem"}}/>
+              <Image src={Logo} alt="logo" style={{ width: "10rem", height: "auto"}}/>
             </IconContainer>
             <Stack spacing={2} width={1}>
               <TextField

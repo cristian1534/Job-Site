@@ -62,15 +62,16 @@ export default function Header({ changeMode, darkMode }) {
           </Typography>
           {currentUser && (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <IconContainer style={{ marginRight: "10px" }}>
-                <ProfileAvatar src={currentUser.photoURL} alt="avatar" />
+              {currentUser && currentUser.displayName}
+              <IconContainer
+                style={{ marginRight: "10px", marginLeft: "10px" }}
+              >
+                <ProfileAvatar
+                  src={currentUser.photoURL}
+                  alt="avatar"
+                  onClick={() => router.push("/")}
+                />
               </IconContainer>
-              <Button color="inherit" onClick={() => router.push("/")}>
-                Chat
-              </Button>
-              <Button color="inherit" onClick={() => router.push("/")}>
-                Meet
-              </Button>
             </div>
           )}
 

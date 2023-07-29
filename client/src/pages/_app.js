@@ -1,16 +1,18 @@
-import Head from "next/head";
-import "@/styles/globals.css";
-import Layout from "@/components/Layout/Layout";
-import { Provider } from "react-redux";
-import reduxStore from "../redux/store";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import { useState, useEffect } from "react";
-import { firebaseApp } from "@/database/config";
-import { FirebaseAppProvider } from "reactfire";
-import { UserProvider } from "@/components/user/User";
-import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
-import Loader from "../components/Loader/Loader";
+import Head from 'next/head';
+import '@/styles/globals.css';
+import Layout from '@/components/Layout/Layout';
+import { Provider } from 'react-redux';
+import reduxStore from '../redux/store';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { useState, useEffect } from 'react';
+import { firebaseApp } from '@/database/config';
+import { FirebaseAppProvider } from 'reactfire';
+import { UserProvider } from '@/components/user/User';
+import PrivateRoute from '@/components/PrivateRoute/PrivateRoute';
+import Loader from '../components/Loader/Loader';
+
+import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 
 export default function App({ Component, pageProps, router }) {
   const [darkMode, setDarkMode] = useState(false);
@@ -18,13 +20,13 @@ export default function App({ Component, pageProps, router }) {
 
   const darkTheme = createTheme({
     palette: {
-      mode: darkMode ? "dark" : "light",
+      mode: darkMode ? 'dark' : 'light',
       primary: {
-        main: "#ef6c00",
+        main: '#ef6c00',
       },
     },
     typography: {
-      fontFamily: "Pacifico, sans-serif",
+      fontFamily: 'Pacifico, sans-serif',
     },
   });
 
@@ -34,9 +36,9 @@ export default function App({ Component, pageProps, router }) {
 
   useEffect(() => {
     if (darkMode) {
-      document.body.classList.add("dark-mode");
+      document.body.classList.add('dark-mode');
     } else {
-      document.body.classList.remove("dark-mode");
+      document.body.classList.remove('dark-mode');
     }
   }, [darkMode]);
 
@@ -46,11 +48,10 @@ export default function App({ Component, pageProps, router }) {
     });
   }, []);
 
-  const authRequired = ["/"];
-
-  const isLoginPage = router.pathname === "/login";
-  const isRegisterPage = router.pathname === "/register";
-  const isRecoverPage = router.pathname === "/recover";
+  const authRequired = ['/'];
+  const isLoginPage = router.pathname === '/login';
+  const isRegisterPage = router.pathname === '/register';
+  const isRecoverPage = router.pathname === '/recover';
   const isAuthRequiredPage = authRequired.includes(router.pathname);
 
   return (
@@ -79,22 +80,26 @@ export default function App({ Component, pageProps, router }) {
               <div>
                 <Loader />
               </div>
-            ) : isAuthRequiredPage ? (
-              <PrivateRoute>
-                <main className="font-sans">
-                  <Layout changeMode={changeMode}>
-                    <Component {...pageProps} />
-                  </Layout>
-                </main>
-              </PrivateRoute>
-            ) : isLoginPage || isRegisterPage || isRecoverPage ? (
-              <Component {...pageProps} />
             ) : (
-              <main className="font-sans">
-                <Layout changeMode={changeMode}>
+              <ErrorBoundary reset={() => window.location.reload()}>
+                {isAuthRequiredPage ? (
+                  <PrivateRoute>
+                    <main className="font-sans">
+                      <Layout changeMode={changeMode}>
+                        <Component {...pageProps} />
+                      </Layout>
+                    </main>
+                  </PrivateRoute>
+                ) : isLoginPage || isRegisterPage || isRecoverPage ? (
                   <Component {...pageProps} />
-                </Layout>
-              </main>
+                ) : (
+                  <main className="font-sans">
+                    <Layout changeMode={changeMode}>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </main>
+                )}
+              </ErrorBoundary>
             )}
           </Provider>
         </UserProvider>
